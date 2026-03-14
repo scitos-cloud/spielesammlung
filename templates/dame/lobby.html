@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% block title %} - Dame Lobby{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{{ url_for('static', filename='css/dame.css') }}">{% endblock %}
+{% block content %}
+<a href="{{ url_for('dashboard.index') }}" class="btn-back">&larr; Zurueck zur Spieleauswahl</a>
+<div class="lobby">
+    <h2>Dame - Lobby</h2>
+    <p class="lobby-welcome">
+        Willkommen in der Lobby, <strong>{{ current_user.username }}</strong>!
+        Tritt der Lobby bei, um von anderen Spielern herausgefordert zu werden,
+        oder starte direkt ein Spiel gegen die KI.
+    </p>
+    <div class="lobby-actions">
+        <button id="btn-join" onclick="joinLobby()">Lobby beitreten</button>
+        <button id="btn-leave" onclick="leaveLobby()" style="display:none">Lobby verlassen</button>
+        <button onclick="startAI()">Gegen KI spielen</button>
+    </div>
+    <div id="lobby-status"></div>
+
+    <div class="lobby-columns">
+        <div class="lobby-col">
+            <h3>Spieler in der Lobby</h3>
+            <ul id="player-list"></ul>
+            <div id="challenges"></div>
+        </div>
+        <div class="lobby-col">
+            <h3>Alle Spieler</h3>
+            <table id="user-table">
+                <thead><tr><th>Name</th><th>Spiele</th><th>Siege</th><th>Status</th><th></th></tr></thead>
+                <tbody id="user-list"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+const BASE = '/dame';
+let inLobby = false;
+let pollInterval;
+
+function joinLobby() {
+    fetch(BASE + '/lobby/join', {method: 'POST'}).then(() => {
+        inLobby = true;
+        document.getElementById('btn-join').style.display = 'none';
+        document.getElementById('btn-leave').style.display = '';
+        document.getElementById('lobby-status').textContent = 'Du bist in der Lobby.';
+        startPolling();
+    });
+}
+
+function leaveLobby() {
+    fetch(BASE + '/lobby/leave', {method: 'POST'}).then(() => {
+        inLobby = false;
+        document.getElementById('btn-join').style.display = '';
+        document.getElementById('btn-leave').style.display = 'none';
+        document.getElementById('lobby-status').textContent = '';
+        stopPolling();
+    });
+}
+
+function startAI() {
+    fetch(BASE + '/lobby/start-ai', {method: 'POST'})
+        .then(r => r.json())
+        .then(data => { window.location.href = BASE + '/game/' + data.game_id; });
+}
+
+function challengePlayer(userId) {
+    fetch(BASE + '/lobby/challenge/' + userId, {method: 'POST'})
+        .then(r => r.json())
+        .then(data => {
+            if (data.error) alert(data.error);
+            else document.getElementById('lobby-status').textContent = 'Herausforderung gesendet!';
+        });
+}
+
+function acceptChallenge(challengeId) {
+    fetch(BASE + '/lobby/accept/' + challengeId, {method: 'POST'})
+        .then(r => r.json())
+        .then(data => {
+            if (data.game_id) window.location.href = BASE + '/game/' + data.game_id;
+        });
+}
+
+function declineChallenge(challengeId) {
+    fetch(BASE + '/lobby/decline/' + challengeId, {method: 'POST'});
+}
+
+function pollPlayers() {
+    fetch(BASE + '/lobby/players').then(r => r.json()).then(players => {
+        const list = document.getElementById('player-list');
+        list.innerHTML = '';
+        if (players.length === 0) {
+            list.innerHTML = '<li>Keine anderen Spieler in der Lobby</li>';
+            return;
+        }
+        players.forEach(p => {
+            const li = document.createElement('li');
+            li.innerHTML = p.username + ' <button onclick="challengePlayer(' + p.id + ')">Herausfordern</button>';
+            list.appendChild(li);
+        });
+    });
+}
+
+function pollUsers() {
+    fetch(BASE + '/lobby/users').then(r => r.json()).then(users => {
+        const tbody = document.getElementById('user-list');
+        tbody.innerHTML = '';
+        if (users.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5">Keine anderen Spieler registriert</td></tr>';
+            return;
+        }
+        users.forEach(u => {
+            const tr = document.createElement('tr');
+            const statusCls = u.in_lobby ? 'status-online' : 'status-offline';
+            const statusText = u.in_lobby ? 'In Lobby' : 'Offline';
+            let actions = '<a href="' + BASE + '/profile/' + u.id + '">Profil</a>';
+            if (u.in_lobby && inLobby) {
+                actions += ' <button onclick="challengePlayer(' + u.id + ')">Herausfordern</button>';
+            }
+            tr.innerHTML = '<td>' + u.username + '</td>'
+                + '<td>' + u.games + '</td>'
+                + '<td>' + u.wins + '</td>'
+                + '<td><span class="' + statusCls + '">' + statusText + '</span></td>'
+                + '<td>' + actions + '</td>';
+            tbody.appendChild(tr);
+        });
+    });
+}
+
+function pollChallenges() {
+    fetch(BASE + '/lobby/check').then(r => r.json()).then(challenges => {
+        const div = document.getElementById('challenges');
+        if (challenges.length === 0) { div.innerHTML = ''; return; }
+        let html = '<h3>Herausforderungen</h3>';
+        challenges.forEach(ch => {
+            html += '<div class="challenge">' + ch.challenger_name + ' fordert dich heraus! ';
+            html += '<button onclick="acceptChallenge(' + ch.id + ')">Annehmen</button> ';
+            html += '<button onclick="declineChallenge(' + ch.id + ')">Ablehnen</button></div>';
+        });
+        div.innerHTML = html;
+    });
+}
+
+function startPolling() {
+    pollPlayers();
+    pollChallenges();
+    pollUsers();
+    pollInterval = setInterval(() => { pollPlayers(); pollChallenges(); pollUsers(); }, 3000);
+}
+
+function stopPolling() {
+    if (pollInterval) clearInterval(pollInterval);
+}
+
+pollPlayers();
+pollUsers();
+setInterval(() => { pollPlayers(); pollUsers(); }, 5000);
+</script>
+{% endblock %}

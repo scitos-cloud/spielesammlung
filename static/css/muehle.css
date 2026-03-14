@@ -1,0 +1,95 @@
+/* Muehle-specific styles */
+
+.muehle-lobby { background: #16213e; padding: 24px; border-radius: 12px; }
+.muehle-lobby h2 { margin-bottom: 8px; }
+.lobby-desc { color: #aaa; line-height: 1.5; margin-bottom: 20px; }
+.muehle-section { margin-bottom: 20px; }
+.muehle-section h3 { margin-bottom: 10px; color: #ccc; }
+.new-game-form { display: flex; gap: 12px; }
+.game-list { display: flex; flex-direction: column; gap: 8px; }
+.game-list-item { display: block; background: #0f3460; padding: 10px 16px; border-radius: 6px; color: #ccc; text-decoration: none; }
+.game-list-item:hover { background: #16213e; color: #e94560; }
+.open-game { display: flex; justify-content: space-between; align-items: center; }
+.online-list { list-style: none; }
+.online-list li { padding: 4px 0; display: flex; align-items: center; }
+.online-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #4caf50; margin-right: 8px; }
+.you-tag { color: #aaa; font-size: 0.85em; margin-left: 4px; }
+.muted-text { color: #aaa; font-size: 0.9em; }
+.mt-2 { margin-top: 8px; }
+.mt-3 { margin-top: 12px; }
+.mb-3 { margin-bottom: 12px; }
+.btn-sm { padding: 4px 12px; font-size: 0.85em; }
+
+/* Game layout */
+.muehle-game-layout { display: flex; gap: 24px; flex-wrap: wrap; }
+.muehle-board-col { flex: 2; min-width: 300px; }
+.muehle-info-col { flex: 1; min-width: 260px; }
+.muehle-info-card { background: #16213e; padding: 20px; border-radius: 12px; }
+.muehle-info-card h3 { margin-bottom: 12px; }
+.muehle-info-card h4 { margin-bottom: 10px; color: #ccc; }
+.muehle-info-card hr { border: none; border-top: 1px solid #333; margin: 12px 0; }
+.status-bold { font-weight: bold; margin-bottom: 4px; }
+.help-list { padding-left: 18px; font-size: 0.9em; color: #aaa; line-height: 1.6; }
+.help-list li { margin-bottom: 4px; }
+
+.stone-white-info, .stone-black-info {
+    display: inline-block; width: 16px; height: 16px; border-radius: 50%;
+    vertical-align: middle; margin-right: 6px; border: 2px solid #333;
+}
+.stone-white-info { background: #f0e6d3; }
+.stone-black-info { background: #2c2c2c; }
+
+/* Board */
+#board-container { max-width: 600px; margin: 0 auto; }
+#board-svg {
+    width: 100%; height: auto; background-color: #d4a76a;
+    border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.pos-circle {
+    fill: #c49a5c; stroke: #5a3e28; stroke-width: 2;
+    cursor: pointer; transition: fill 0.15s;
+}
+.pos-circle:hover { filter: brightness(1.15); }
+.pos-circle.stone-white { fill: #f0e6d3; stroke: #8b7355; stroke-width: 3; }
+.pos-circle.stone-black { fill: #2c2c2c; stroke: #555; stroke-width: 3; }
+.pos-circle.legal-target { fill: #6ecf6e; stroke: #3a8a3a; stroke-width: 3; }
+.pos-circle.selected { stroke: #ff6600; stroke-width: 4; animation: muehle-pulse 0.8s infinite alternate; }
+.pos-circle.removable { stroke: #ff3333; stroke-width: 4; cursor: pointer; }
+.pos-circle.mill-highlight { stroke: #ffd700; stroke-width: 4; }
+
+@keyframes muehle-pulse {
+    from { r: 18; } to { r: 22; }
+}
+
+.last-move-ring { fill: none; stroke: #2196f3; stroke-width: 3; stroke-dasharray: 6 3; pointer-events: none; }
+.last-move-arrow { stroke: #2196f3; stroke-width: 3; stroke-linecap: round; pointer-events: none; }
+.last-move-arrowhead { fill: #2196f3; pointer-events: none; }
+.last-move-cross { stroke: #ff3333; stroke-width: 3; stroke-linecap: round; pointer-events: none; }
+
+/* Stone counter */
+.sc-label { font-weight: 600; font-size: 1.05rem; margin-bottom: 6px; }
+.sc-dots { display: flex; gap: 6px; }
+.sc-dot { display: inline-block; width: 22px; height: 22px; border-radius: 50%; border: 2px solid #5a3e28; }
+.sc-placed { background: #b08050; box-shadow: inset 0 1px 3px rgba(0,0,0,0.3); }
+.sc-next { background: #ffc107; border-color: #ff9800; animation: sc-pulse 0.9s infinite alternate; }
+.sc-empty { background: #e8dcc8; }
+
+@keyframes sc-pulse {
+    from { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,193,7,0.5); }
+    to { transform: scale(1.15); box-shadow: 0 0 8px 2px rgba(255,193,7,0.6); }
+}
+
+/* Game over overlay */
+#game-over-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7); display: flex; align-items: center;
+    justify-content: center; z-index: 1000;
+}
+.game-over-content {
+    background: #16213e; padding: 3rem; border-radius: 12px; text-align: center;
+}
+.game-over-content h2 { color: #e94560; }
+
+@media (max-width: 700px) {
+    .muehle-game-layout { flex-direction: column; }
+}

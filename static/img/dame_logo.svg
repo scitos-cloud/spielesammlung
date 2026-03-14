@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <rect x="2" y="2" width="44" height="44" rx="6" fill="#16213e" stroke="#e94560" stroke-width="2"/>
+  <!-- Crown -->
+  <polygon points="8,32 12,18 17,26 24,14 31,26 36,18 40,32" fill="gold" stroke="goldenrod" stroke-width="1.5" stroke-linejoin="round"/>
+  <rect x="8" y="32" width="32" height="5" rx="2" fill="gold" stroke="goldenrod" stroke-width="1.5"/>
+  <!-- Jewels -->
+  <circle cx="16" cy="28" r="2" fill="#e94560"/>
+  <circle cx="24" cy="24" r="2" fill="#e94560"/>
+  <circle cx="32" cy="28" r="2" fill="#e94560"/>
+</svg>

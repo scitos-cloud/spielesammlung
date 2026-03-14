@@ -1,0 +1,105 @@
+/* TwentyOne-specific styles */
+
+.table {
+    background: #2d6a4f;
+    border-radius: 24px;
+    padding: 40px 48px;
+    max-width: 800px;
+    margin: 0 auto;
+    box-shadow: 0 0 60px rgba(0,0,0,0.5), inset 0 0 80px rgba(0,0,0,0.15);
+    border: 8px solid #3a3a3a;
+}
+
+.twentyone-title {
+    text-align: center;
+    font-size: 1.6rem;
+    margin-bottom: 32px;
+    color: #d4af37;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+    letter-spacing: 2px;
+}
+
+.hand-area { margin: 16px 0; }
+.hand-label { font-size: 1rem; font-weight: 600; margin-bottom: 8px; text-shadow: 1px 1px 2px rgba(0,0,0,0.4); }
+.score { font-weight: 400; opacity: 0.8; font-size: 0.9rem; }
+.cards { display: flex; gap: 12px; flex-wrap: wrap; min-height: 130px; align-items: flex-start; }
+
+/* Card */
+.card {
+    width: 90px; height: 126px; background: #fff; border-radius: 8px;
+    position: relative; box-shadow: 2px 3px 10px rgba(0,0,0,0.3);
+    animation: dealCard 0.3s ease-out; font-family: "Georgia", serif;
+}
+
+@keyframes dealCard {
+    from { opacity: 0; transform: translateY(-30px) rotate(-5deg); }
+    to { opacity: 1; transform: translateY(0) rotate(0); }
+}
+
+.card-red { color: #c0392b; }
+.card-black { color: #2c3e50; }
+.card-hidden {
+    background: linear-gradient(135deg, #2c3e50 25%, #34495e 25%, #34495e 50%, #2c3e50 50%, #2c3e50 75%, #34495e 75%);
+    background-size: 14px 14px; color: #fff; display: flex; align-items: center;
+    justify-content: center; font-size: 2.4rem; font-weight: bold; border: 3px solid #d4af37;
+}
+.card-thinking {
+    background: rgba(255,255,255,0.1); border: 3px dashed rgba(255,255,255,0.4);
+    display: flex; align-items: center; justify-content: center; font-size: 2.4rem;
+    animation: twentyone-pulse 1s ease-in-out infinite;
+}
+
+@keyframes twentyone-pulse {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
+}
+
+.card-corner { position: absolute; display: flex; flex-direction: column; align-items: center; line-height: 1; }
+.top-left { top: 6px; left: 8px; }
+.bottom-right { bottom: 6px; right: 8px; transform: rotate(180deg); }
+.card-rank { font-size: 1rem; font-weight: bold; }
+.card-suit { font-size: 0.8rem; }
+.card-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 2.2rem; }
+
+/* Message */
+.message {
+    text-align: center; font-size: 1.4rem; font-weight: 700;
+    min-height: 48px; display: flex; align-items: center; justify-content: center;
+    margin: 16px 0; letter-spacing: 1px;
+}
+.message.win { color: #f1c40f; text-shadow: 0 0 12px rgba(241,196,15,0.5); }
+.message.lose { color: #e74c3c; }
+.message.tie { color: #f39c12; }
+
+/* Controls */
+.controls { display: flex; gap: 12px; justify-content: center; margin-top: 24px; }
+.controls button {
+    padding: 12px 28px; font-size: 1rem; font-weight: 600; border: none;
+    border-radius: 8px; cursor: pointer; transition: all 0.15s ease;
+}
+.controls button:disabled { opacity: 0.4; cursor: not-allowed; }
+#btn-new { background: #d4af37; color: #1a1a2e; }
+#btn-new:hover:not(:disabled) { background: #e8c84a; }
+#btn-hit { background: #27ae60; color: #fff; }
+#btn-hit:hover:not(:disabled) { background: #2ecc71; }
+#btn-stand { background: #c0392b; color: #fff; }
+#btn-stand:hover:not(:disabled) { background: #e74c3c; }
+
+/* Scoreboard */
+.scoreboard {
+    display: flex; justify-content: center; gap: 24px; margin-top: 20px;
+    padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.15); font-size: 0.9rem;
+}
+.scoreboard-item { opacity: 0.85; }
+.scoreboard-item.win { color: #f1c40f; }
+.scoreboard-item.lose { color: #e74c3c; }
+.tie-text { color: #f39c12; opacity: 0.85; }
+
+@media (max-width: 640px) {
+    .table { min-width: unset; margin: 0; padding: 24px; }
+    .card { width: 70px; height: 98px; }
+    .card-center { font-size: 1.6rem; }
+    .card-rank { font-size: 0.8rem; }
+    .card-suit { font-size: 0.65rem; }
+    .controls button { padding: 10px 18px; font-size: 0.9rem; }
+}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %} - Spielauswahl{% endblock %}
+{% block content %}
+<div class="dashboard">
+    <h1>Willkommen, {{ current_user.username }}!</h1>
+    <p class="dashboard-subtitle">Waehle ein Spiel:</p>
+    <div class="game-cards">
+        <a href="{{ url_for('dame.lobby') }}" class="game-card">
+            <div class="game-card-icon">&#9823;</div>
+            <h3>Dame</h3>
+            <p>Klassisches Brettspiel gegen KI oder andere Spieler. Schlage alle gegnerischen Steine!</p>
+        </a>
+        <a href="{{ url_for('hangman.index') }}" class="game-card">
+            <div class="game-card-icon">&#9000;</div>
+            <h3>Hangman</h3>
+            <p>Errate das Wort Buchstabe fuer Buchstabe, bevor das Maennchen haengt!</p>
+        </a>
+        <a href="{{ url_for('muehle.lobby') }}" class="game-card">
+            <div class="game-card-icon">&#9899;</div>
+            <h3>Muehle</h3>
+            <p>Bilde Muehlen und entferne die Steine deines Gegners. Gegen KI oder Multiplayer!</p>
+        </a>
+        <a href="{{ url_for('twentyone.index') }}" class="game-card">
+            <div class="game-card-icon">&#9830;</div>
+            <h3>17 und 4</h3>
+            <p>Ziehe Karten und versuche moeglichst nah an 21 zu kommen, ohne dich zu ueberkaufen!</p>
+        </a>
+    </div>
+</div>
+{% endblock %}

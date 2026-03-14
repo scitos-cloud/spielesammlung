@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %} - Dame Profil - {{ user.username }}{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{{ url_for('static', filename='css/dame.css') }}">{% endblock %}
+{% block content %}
+<a href="{{ url_for('dame.lobby') }}" class="btn-back">&larr; Zurueck zur Lobby</a>
+<div class="profile">
+    <h2>{{ user.username }}</h2>
+    <p>Mitglied seit: {{ user.created_at.strftime('%d.%m.%Y') }}</p>
+    <div class="stats">
+        <div class="stat"><span class="stat-value">{{ total }}</span><span class="stat-label">Spiele</span></div>
+        <div class="stat"><span class="stat-value">{{ wins }}</span><span class="stat-label">Siege</span></div>
+        <div class="stat"><span class="stat-value">{{ losses }}</span><span class="stat-label">Niederlagen</span></div>
+        <div class="stat"><span class="stat-value">{{ draws }}</span><span class="stat-label">Unentschieden</span></div>
+        <div class="stat"><span class="stat-value">{{ win_rate }}%</span><span class="stat-label">Win-Rate</span></div>
+    </div>
+
+    {% if active %}
+    <h3>Laufende Spiele</h3>
+    <table>
+        <thead><tr><th>Gegner</th><th>Typ</th><th>Gestartet</th><th></th></tr></thead>
+        <tbody>
+        {% for g in active %}
+        <tr>
+            <td>{{ g.opponent }}</td>
+            <td>{{ g.game_type }}</td>
+            <td>{{ g.started }}</td>
+            <td><a href="{{ url_for('dame.game_page', game_id=g.id) }}">Weiterspielen</a></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+    <h3>Logbuch</h3>
+    {% if history %}
+    <table>
+        <thead><tr><th>#</th><th>Gegner</th><th>Farbe</th><th>Typ</th><th>Ergebnis</th><th>Datum</th></tr></thead>
+        <tbody>
+        {% for h in history %}
+        <tr class="{{ h.result_class }}">
+            <td>{{ loop.index }}</td>
+            <td>{{ h.opponent }}</td>
+            <td>{{ h.color }}</td>
+            <td>{{ h.game_type }}</td>
+            <td>{{ h.result }}</td>
+            <td>{{ h.date }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="empty-hint">Noch keine abgeschlossenen Spiele.</p>
+    {% endif %}
+</div>
+{% endblock %}

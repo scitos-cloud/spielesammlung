@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block title %} - Muehle Spiel #{{ game.id }}{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{{ url_for('static', filename='css/muehle.css') }}">{% endblock %}
+
+{% block content %}
+<a href="{{ url_for('muehle.lobby') }}" class="btn-back">&larr; Zurueck zur Lobby</a>
+
+<div class="muehle-game-layout">
+    <div class="muehle-board-col">
+        <div id="board-container">
+            <svg id="board-svg" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+                <!-- Board lines -->
+                <rect x="50" y="50" width="500" height="500" fill="none" stroke="#5a3e28" stroke-width="3"/>
+                <rect x="150" y="150" width="300" height="300" fill="none" stroke="#5a3e28" stroke-width="3"/>
+                <rect x="250" y="250" width="100" height="100" fill="none" stroke="#5a3e28" stroke-width="3"/>
+                <line x1="300" y1="50" x2="300" y2="250" stroke="#5a3e28" stroke-width="3"/>
+                <line x1="300" y1="350" x2="300" y2="550" stroke="#5a3e28" stroke-width="3"/>
+                <line x1="50" y1="300" x2="250" y2="300" stroke="#5a3e28" stroke-width="3"/>
+                <line x1="350" y1="300" x2="550" y2="300" stroke="#5a3e28" stroke-width="3"/>
+
+                <!-- 24 positions -->
+                <circle data-pos="0"  cx="50"  cy="50"  r="18" class="pos-circle"/>
+                <circle data-pos="1"  cx="300" cy="50"  r="18" class="pos-circle"/>
+                <circle data-pos="2"  cx="550" cy="50"  r="18" class="pos-circle"/>
+                <circle data-pos="9"  cx="50"  cy="300" r="18" class="pos-circle"/>
+                <circle data-pos="14" cx="550" cy="300" r="18" class="pos-circle"/>
+                <circle data-pos="21" cx="50"  cy="550" r="18" class="pos-circle"/>
+                <circle data-pos="22" cx="300" cy="550" r="18" class="pos-circle"/>
+                <circle data-pos="23" cx="550" cy="550" r="18" class="pos-circle"/>
+                <circle data-pos="3"  cx="150" cy="150" r="18" class="pos-circle"/>
+                <circle data-pos="4"  cx="300" cy="150" r="18" class="pos-circle"/>
+                <circle data-pos="5"  cx="450" cy="150" r="18" class="pos-circle"/>
+                <circle data-pos="10" cx="150" cy="300" r="18" class="pos-circle"/>
+                <circle data-pos="13" cx="450" cy="300" r="18" class="pos-circle"/>
+                <circle data-pos="18" cx="150" cy="450" r="18" class="pos-circle"/>
+                <circle data-pos="19" cx="300" cy="450" r="18" class="pos-circle"/>
+                <circle data-pos="20" cx="450" cy="450" r="18" class="pos-circle"/>
+                <circle data-pos="6"  cx="250" cy="250" r="18" class="pos-circle"/>
+                <circle data-pos="7"  cx="300" cy="250" r="18" class="pos-circle"/>
+                <circle data-pos="8"  cx="350" cy="250" r="18" class="pos-circle"/>
+                <circle data-pos="11" cx="250" cy="300" r="18" class="pos-circle"/>
+                <circle data-pos="12" cx="350" cy="300" r="18" class="pos-circle"/>
+                <circle data-pos="15" cx="250" cy="350" r="18" class="pos-circle"/>
+                <circle data-pos="16" cx="300" cy="350" r="18" class="pos-circle"/>
+                <circle data-pos="17" cx="350" cy="350" r="18" class="pos-circle"/>
+            </svg>
+        </div>
+    </div>
+    <div class="muehle-info-col">
+        <div class="muehle-info-card">
+            <h3>Spiel #{{ game.id }}</h3>
+            <p>
+                <span class="stone stone-white-info"></span>
+                {{ game.white_player.username }}
+                {% if my_player == 1 %}<strong>(Du)</strong>{% endif %}
+            </p>
+            <p>
+                <span class="stone stone-black-info"></span>
+                {{ game.black_player.username if game.black_player else 'Computer' }}
+                {% if my_player == 2 %}<strong>(Du)</strong>{% endif %}
+            </p>
+            <hr>
+            <div id="stone-counter" style="display:none" class="mb-3"></div>
+            <div id="status-text" class="status-bold"></div>
+            <div id="phase-text" class="muted-text"></div>
+            <div id="stones-info" class="muted-text mt-2"></div>
+        </div>
+
+        <div class="muehle-info-card mt-3">
+            <h4>Kurzanleitung</h4>
+            <ul class="help-list">
+                <li><strong>Setzen:</strong> Klicke auf ein <span style="color:#6ecf6e">gruen markiertes</span> Feld.</li>
+                <li><strong>Ziehen:</strong> Klicke auf deinen Stein, dann auf ein benachbartes freies Feld.</li>
+                <li><strong>Springen:</strong> Bei 3 Steinen darfst du auf jedes freie Feld springen.</li>
+                <li><strong>Muehle:</strong> 3 in einer Reihe &rarr; entferne einen <span style="color:#ff3333">rot markierten</span> Gegnerstein.</li>
+                <li><strong>Ziel:</strong> Reduziere den Gegner auf 2 Steine oder blockiere alle Zuege.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Game over overlay -->
+<div id="game-over-overlay" style="display:none">
+    <div class="game-over-content">
+        <h2 id="game-over-text"></h2>
+        <a href="{{ url_for('muehle.lobby') }}" class="btn btn-primary mt-3">Zurueck zur Lobby</a>
+    </div>
+</div>
+
+<script>
+    const GAME_ID = {{ game.id }};
+    const MY_PLAYER = {{ my_player }};
+    const IS_VS_COMPUTER = {{ 'true' if game.is_vs_computer else 'false' }};
+    const CSRF_TOKEN = "{{ csrf_token() }}";
+    const MUEHLE_BASE = '/muehle';
+</script>
+{% if not game.is_vs_computer %}
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<script src="{{ url_for('static', filename='js/muehle_socket.js') }}"></script>
+{% endif %}
+<script src="{{ url_for('static', filename='js/muehle_board.js') }}"></script>
+<script>
+    initBoard({
+        board: {{ game.get_board() | tojson }},
+        current_player: {{ game.current_player }},
+        stones_placed_white: {{ game.stones_placed_white }},
+        stones_placed_black: {{ game.stones_placed_black }},
+        pending_removal: {{ 'true' if game.pending_removal else 'false' }},
+        status: "{{ game.status }}",
+        winner: {{ game.winner if game.winner else 'null' }},
+    });
+</script>
+{% endblock %}

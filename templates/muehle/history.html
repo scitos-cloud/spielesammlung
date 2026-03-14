@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %} - Muehle Spielhistorie{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{{ url_for('static', filename='css/muehle.css') }}">{% endblock %}
+{% block content %}
+<a href="{{ url_for('muehle.lobby') }}" class="btn-back">&larr; Zurueck zur Lobby</a>
+
+<h2>Spielhistorie</h2>
+
+{% if games %}
+<table>
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Gegner</th>
+            <th>Modus</th>
+            <th>Ergebnis</th>
+            <th>Datum</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for game in games %}
+        <tr>
+            <td>{{ game.id }}</td>
+            <td>
+                {% if game.white_player_id == user.id %}
+                    {{ game.black_player.username if game.black_player else 'Computer' }}
+                {% else %}
+                    {{ game.white_player.username }}
+                {% endif %}
+            </td>
+            <td>{{ 'Computer' if game.is_vs_computer else 'Multiplayer' }}</td>
+            <td>
+                {% if game.winner is none %}
+                    Unentschieden
+                {% elif (game.winner == 1 and game.white_player_id == user.id) or
+                        (game.winner == 2 and game.black_player_id == user.id) %}
+                    <span style="color:#4caf50;font-weight:bold">Gewonnen</span>
+                {% else %}
+                    <span style="color:#e94560">Verloren</span>
+                {% endif %}
+            </td>
+            <td>{{ game.finished_at.strftime('%d.%m.%Y %H:%M') if game.finished_at else '-' }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="muted-text" style="margin-top:12px">Noch keine abgeschlossenen Spiele.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %} - Muehle Lobby{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{{ url_for('static', filename='css/muehle.css') }}">{% endblock %}
+{% block content %}
+<a href="{{ url_for('dashboard.index') }}" class="btn-back">&larr; Zurueck zur Spieleauswahl</a>
+
+<div class="muehle-lobby">
+    <h2>Muehle - Lobby</h2>
+    <p class="lobby-desc">
+        Willkommen in der Spiellobby, {{ current_user.username }}!
+        Starte ein neues Spiel gegen den Computer oder erstelle eine Partie
+        gegen einen anderen Spieler.
+    </p>
+
+    <div class="muehle-section">
+        <h3>Neues Spiel</h3>
+        <form method="POST" action="{{ url_for('muehle.new_game') }}" class="new-game-form">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit" name="vs_computer" value="1" class="btn btn-primary">Gegen Computer</button>
+            <button type="submit" name="vs_computer" value="0" class="btn btn-secondary">Gegen Mensch</button>
+        </form>
+    </div>
+
+    {% if my_games %}
+    <div class="muehle-section">
+        <h3>Meine aktiven Spiele</h3>
+        <div class="game-list">
+            {% for game in my_games %}
+            <a href="{{ url_for('muehle.play', game_id=game.id) }}" class="game-list-item">
+                Spiel #{{ game.id }} —
+                {{ game.white_player.username }} vs.
+                {{ game.black_player.username if game.black_player else 'Computer' }}
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if open_games %}
+    <div class="muehle-section">
+        <h3>Offene Spiele</h3>
+        <div class="game-list">
+            {% for game in open_games %}
+            <div class="game-list-item open-game">
+                <span>Spiel #{{ game.id }} — erstellt von {{ game.white_player.username }}</span>
+                <form method="POST" action="{{ url_for('muehle.join_game', game_id=game.id) }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn-primary btn-sm">Beitreten</button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="muehle-section">
+        <h3>Spieler online</h3>
+        {% if online_users %}
+        <ul class="online-list">
+            {% for user in online_users %}
+            <li>
+                <span class="online-dot"></span>
+                {{ user.username }}
+                {% if user.id == current_user.id %}<span class="you-tag">(Du)</span>{% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+        <p class="muted-text">{{ online_users|length }} Spieler aktiv</p>
+        {% else %}
+        <p class="muted-text">Keine Spieler online.</p>
+        {% endif %}
+    </div>
+
+    <div class="muehle-section">
+        <a href="{{ url_for('muehle.history') }}" class="btn btn-secondary">Spielhistorie</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %} - 17 und 4{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{{ url_for('static', filename='css/twentyone.css') }}">{% endblock %}
+{% block content %}
+<a href="{{ url_for('dashboard.index') }}" class="btn-back">&larr; Zurueck zur Spieleauswahl</a>
+
+<div class="table">
+    <h2 class="twentyone-title">21 &mdash; Siebzehn und Vier</h2>
+
+    <div class="hand-area">
+        <div class="hand-label">Dealer <span id="dealer-score" class="score"></span></div>
+        <div id="dealer-cards" class="cards"></div>
+    </div>
+
+    <div id="message" class="message"></div>
+
+    <div class="hand-area">
+        <div class="hand-label">Du <span id="player-score" class="score"></span></div>
+        <div id="player-cards" class="cards"></div>
+    </div>
+
+    <div class="controls">
+        <button id="btn-new" onclick="newGame()">Neues Spiel</button>
+        <button id="btn-hit" onclick="hit()" disabled>Karte ziehen</button>
+        <button id="btn-stand" onclick="stand()" disabled>Halten</button>
+    </div>
+
+    <div class="scoreboard">
+        <span class="scoreboard-item win">Du: <strong id="wins-player">0</strong></span>
+        <span class="scoreboard-item lose">Dealer: <strong id="wins-dealer">0</strong></span>
+        <span class="scoreboard-item tie-text">Unentschieden: <strong id="wins-tie">0</strong></span>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>const TWENTYONE_BASE = '/twentyone';</script>
+<script src="{{ url_for('static', filename='js/twentyone_game.js') }}"></script>
+{% endblock %}

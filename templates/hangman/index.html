@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %} - Hangman{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{{ url_for('static', filename='css/hangman.css') }}">{% endblock %}
+{% block content %}
+<a href="{{ url_for('dashboard.index') }}" class="btn-back">&larr; Zurueck zur Spieleauswahl</a>
+
+<div class="hangman-wrapper">
+  <div class="hangman-header">
+    <h2>&#x2620; Hangman</h2>
+    <p class="subtitle">Galgenmaennchen auf Deutsch</p>
+  </div>
+
+  <!-- Stats Bar -->
+  <div id="stats-bar">
+    <div class="stat-chip">Gespielt <span class="val" id="stat-played">0</span></div>
+    <div class="stat-chip">Gewonnen <span class="val" id="stat-won">0</span></div>
+    <div class="stat-chip">Serie <span class="val" id="stat-streak">0</span></div>
+  </div>
+
+  <!-- Start Screen -->
+  <div id="start-screen">
+    <svg class="hero-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <line x1="30" y1="185" x2="170" y2="185" stroke="#8892a4" stroke-width="4" stroke-linecap="round"/>
+      <line x1="70" y1="185" x2="70" y2="25"  stroke="#8892a4" stroke-width="4" stroke-linecap="round"/>
+      <line x1="70" y1="25"  x2="130" y2="25"  stroke="#8892a4" stroke-width="4" stroke-linecap="round"/>
+      <line x1="130" y1="25" x2="130" y2="55"  stroke="#8892a4" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="130" cy="72" r="17" stroke="#e94560" stroke-width="3" fill="none"/>
+      <line x1="130" y1="89"  x2="130" y2="135" stroke="#e94560" stroke-width="3" stroke-linecap="round"/>
+      <line x1="130" y1="105" x2="108" y2="125" stroke="#e94560" stroke-width="3" stroke-linecap="round"/>
+      <line x1="130" y1="105" x2="152" y2="125" stroke="#e94560" stroke-width="3" stroke-linecap="round"/>
+      <line x1="130" y1="135" x2="110" y2="165" stroke="#e94560" stroke-width="3" stroke-linecap="round"/>
+      <line x1="130" y1="135" x2="150" y2="165" stroke="#e94560" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+    <h3>Willkommen!</h3>
+    <p>Rate das gesuchte deutsche Wort, bevor das Galgenmaennchen vollstaendig gezeichnet wird.</p>
+    <button id="new-game-start-btn" class="btn-primary" style="
+      background:var(--accent);color:white;border:none;border-radius:999px;
+      padding:14px 40px;font-size:1.1rem;font-weight:700;cursor:pointer;
+      letter-spacing:1px;text-transform:uppercase;
+      box-shadow:0 4px 20px rgba(233,69,96,0.4);
+      transition:all 0.2s ease;">
+      Neues Spiel
+    </button>
+    <div id="loading" style="display:none;color:var(--text-muted);font-size:0.9rem;">Lade...</div>
+  </div>
+
+  <!-- Game Area -->
+  <div id="game-area" hidden>
+    <div id="hangman-container">
+      <svg id="hangman-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-label="Galgenmaennchen" role="img">
+        <line class="gallows" x1="20" y1="190" x2="180" y2="190"/>
+        <line class="gallows" x1="60"  y1="190" x2="60"  y2="15"/>
+        <line class="gallows" x1="60"  y1="15"  x2="130" y2="15"/>
+        <line class="gallows" x1="130" y1="15"  x2="130" y2="45"/>
+        <circle id="bp-head" class="body-part" cx="130" cy="62" r="17"/>
+        <line   id="bp-body" class="body-part" x1="130" y1="79"  x2="130" y2="130"/>
+        <line   id="bp-larm" class="body-part" x1="130" y1="97"  x2="105" y2="120"/>
+        <line   id="bp-rarm" class="body-part" x1="130" y1="97"  x2="155" y2="120"/>
+        <line   id="bp-lleg" class="body-part" x1="130" y1="130" x2="108" y2="165"/>
+        <line   id="bp-rleg" class="body-part" x1="130" y1="130" x2="152" y2="165"/>
+      </svg>
+    </div>
+    <div id="word-display" aria-label="Wort" role="group"></div>
+    <div id="wrong-letters" aria-live="polite"></div>
+    <div id="message-banner" aria-live="assertive" role="alert"></div>
+    <div id="keyboard" aria-label="Buchstaben" role="group"></div>
+    <button id="new-game-btn">Neues Spiel</button>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>const HANGMAN_BASE = '/hangman';</script>
+<script src="{{ url_for('static', filename='js/hangman_game.js') }}"></script>
+{% endblock %}
