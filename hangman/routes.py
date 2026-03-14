@@ -16,7 +16,7 @@ def get_display(word, guessed):
 @hangman_bp.route('/')
 @login_required
 def index():
-    return render_template('index.html')
+    return render_template('hangman/index.html')
 
 
 @hangman_bp.route('/api/new-game', methods=['POST'])

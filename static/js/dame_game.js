@@ -1,3 +1,4 @@
+const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]')?.content || '';
 let boardState = null;
 let validMoves = {};
 let selectedPiece = null;
@@ -163,7 +164,7 @@ function onCellClick(r, c) {
 function makeMove(fromRow, fromCol, path) {
     fetch(`${GAME_BASE}/game/${GAME_ID}/move`, {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN},
         body: JSON.stringify({from_row: fromRow, from_col: fromCol, path: path})
     })
     .then(r => r.json())
@@ -191,7 +192,7 @@ function makeMove(fromRow, fromCol, path) {
 
 function resign() {
     if (!confirm('Wirklich aufgeben?')) return;
-    fetch(`${GAME_BASE}/game/${GAME_ID}/resign`, {method: 'POST'})
+    fetch(`${GAME_BASE}/game/${GAME_ID}/resign`, {method: 'POST', headers: {'X-CSRFToken': CSRF_TOKEN}})
         .then(r => r.json())
         .then(data => {
             gameFinished = true;

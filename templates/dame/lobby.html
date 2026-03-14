@@ -36,11 +36,12 @@
 {% block scripts %}
 <script>
 const BASE = '/dame';
+const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]')?.content || '';
 let inLobby = false;
 let pollInterval;
 
 function joinLobby() {
-    fetch(BASE + '/lobby/join', {method: 'POST'}).then(() => {
+    fetch(BASE + '/lobby/join', {method: 'POST', headers: {'X-CSRFToken': CSRF_TOKEN}}).then(() => {
         inLobby = true;
         document.getElementById('btn-join').style.display = 'none';
         document.getElementById('btn-leave').style.display = '';
@@ -50,7 +51,7 @@ function joinLobby() {
 }
 
 function leaveLobby() {
-    fetch(BASE + '/lobby/leave', {method: 'POST'}).then(() => {
+    fetch(BASE + '/lobby/leave', {method: 'POST', headers: {'X-CSRFToken': CSRF_TOKEN}}).then(() => {
         inLobby = false;
         document.getElementById('btn-join').style.display = '';
         document.getElementById('btn-leave').style.display = 'none';
@@ -60,13 +61,13 @@ function leaveLobby() {
 }
 
 function startAI() {
-    fetch(BASE + '/lobby/start-ai', {method: 'POST'})
+    fetch(BASE + '/lobby/start-ai', {method: 'POST', headers: {'X-CSRFToken': CSRF_TOKEN}})
         .then(r => r.json())
         .then(data => { window.location.href = BASE + '/game/' + data.game_id; });
 }
 
 function challengePlayer(userId) {
-    fetch(BASE + '/lobby/challenge/' + userId, {method: 'POST'})
+    fetch(BASE + '/lobby/challenge/' + userId, {method: 'POST', headers: {'X-CSRFToken': CSRF_TOKEN}})
         .then(r => r.json())
         .then(data => {
             if (data.error) alert(data.error);
@@ -75,7 +76,7 @@ function challengePlayer(userId) {
 }
 
 function acceptChallenge(challengeId) {
-    fetch(BASE + '/lobby/accept/' + challengeId, {method: 'POST'})
+    fetch(BASE + '/lobby/accept/' + challengeId, {method: 'POST', headers: {'X-CSRFToken': CSRF_TOKEN}})
         .then(r => r.json())
         .then(data => {
             if (data.game_id) window.location.href = BASE + '/game/' + data.game_id;
@@ -83,7 +84,7 @@ function acceptChallenge(challengeId) {
 }
 
 function declineChallenge(challengeId) {
-    fetch(BASE + '/lobby/decline/' + challengeId, {method: 'POST'});
+    fetch(BASE + '/lobby/decline/' + challengeId, {method: 'POST', headers: {'X-CSRFToken': CSRF_TOKEN}});
 }
 
 function pollPlayers() {

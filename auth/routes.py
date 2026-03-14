@@ -29,7 +29,7 @@ def register():
         login_user(user)
         flash('Registrierung erfolgreich!')
         return redirect(url_for('dashboard.index'))
-    return render_template('register.html')
+    return render_template('auth/register.html')
 
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
@@ -43,7 +43,7 @@ def login():
             return redirect(url_for('dashboard.index'))
         flash('Ungueltige Anmeldedaten.')
         return redirect(url_for('auth.login'))
-    return render_template('login.html')
+    return render_template('auth/login.html')
 
 
 @auth_bp.route('/logout')

@@ -1,6 +1,7 @@
 'use strict';
 
 const API_BASE = typeof HANGMAN_BASE !== 'undefined' ? HANGMAN_BASE : '';
+const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]')?.content || '';
 
 // ── Constants ──────────────────────────────────────────────────────────────
 const KEYBOARD_ROWS = [
@@ -139,7 +140,7 @@ function hideMessage() {
 async function startNewGame() {
   setLoading(true);
   try {
-    const res = await fetch(API_BASE + '/api/new-game', { method: 'POST' });
+    const res = await fetch(API_BASE + '/api/new-game', { method: 'POST', headers: { 'X-CSRFToken': CSRF_TOKEN } });
     const data = await res.json();
     applyState(data);
     localStorage.setItem('hangman-game-id', data.game_id);
@@ -156,7 +157,7 @@ async function sendGuess(letter) {
   try {
     const res = await fetch(API_BASE + '/api/guess', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
       body: JSON.stringify({ game_id: state.gameId, letter }),
     });
     const data = await res.json();

@@ -54,7 +54,7 @@ def lobby():
     ).all()
     threshold = datetime.now(timezone.utc) - timedelta(minutes=5)
     online_users = User.query.filter(User.last_seen >= threshold).order_by(User.username).all()
-    return render_template('lobby.html', open_games=open_games, my_games=my_games,
+    return render_template('muehle/lobby.html', open_games=open_games, my_games=my_games,
                            online_users=online_users)
 
 
@@ -89,7 +89,7 @@ def play(game_id):
     else:
         flash('Du bist nicht Teil dieses Spiels.')
         return redirect(url_for('muehle.lobby'))
-    return render_template('board.html', game=game, my_player=my_player)
+    return render_template('muehle/board.html', game=game, my_player=my_player)
 
 
 @muehle_bp.route('/game/<int:game_id>/action', methods=['POST'])
@@ -223,4 +223,4 @@ def history():
         ((MuehleGame.white_player_id == current_user.id) | (MuehleGame.black_player_id == current_user.id)),
         MuehleGame.status == 'finished'
     ).order_by(MuehleGame.finished_at.desc()).all()
-    return render_template('history.html', games=games, user=current_user)
+    return render_template('muehle/history.html', games=games, user=current_user)

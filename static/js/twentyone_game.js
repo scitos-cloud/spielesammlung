@@ -1,4 +1,5 @@
 const API = typeof TWENTYONE_BASE !== 'undefined' ? TWENTYONE_BASE : '';
+const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]')?.content || '';
 
 const SUIT_SYMBOLS = {
     hearts: "\u2665", diamonds: "\u2666", clubs: "\u2663", spades: "\u2660", hidden: "",
@@ -40,7 +41,9 @@ function playApplause() {
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
 async function apiCall(endpoint, method = "POST") {
-    const res = await fetch(API + endpoint, { method });
+    const opts = { method };
+    if (method === "POST") opts.headers = { 'X-CSRFToken': CSRF_TOKEN };
+    const res = await fetch(API + endpoint, opts);
     return res.json();
 }
 

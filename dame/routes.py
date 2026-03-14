@@ -13,7 +13,7 @@ from dame.ai import ai_move
 @dame_bp.route('/lobby')
 @login_required
 def lobby():
-    return render_template('lobby.html')
+    return render_template('dame/lobby.html')
 
 
 @dame_bp.route('/lobby/players')
@@ -132,7 +132,7 @@ def game_page(game_id):
     color = _player_color(game_db, current_user.id)
     if color is None and not game_db.is_ai_game:
         return "Nicht dein Spiel", 403
-    return render_template('game.html', game_id=game_id, color=color or 'w',
+    return render_template('dame/game.html', game_id=game_id, color=color or 'w',
                            is_ai=game_db.is_ai_game,
                            opponent=game_db.black.username if game_db.black else 'KI')
 
@@ -305,6 +305,6 @@ def profile(user_id):
             'started': g.started_at.strftime('%d.%m.%Y %H:%M') if g.started_at else '',
         })
 
-    return render_template('profile.html', user=user, wins=wins, losses=losses,
+    return render_template('dame/profile.html', user=user, wins=wins, losses=losses,
                            draws=draws, total=total, win_rate=win_rate,
                            history=history, active=active)

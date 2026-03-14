@@ -24,7 +24,7 @@ def _set_game(game: Game) -> None:
 @twentyone_bp.route("/")
 @login_required
 def index():
-    return render_template("index.html")
+    return render_template("twentyone/index.html")
 
 
 @twentyone_bp.route("/api/new", methods=["POST"])
