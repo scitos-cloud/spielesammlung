@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block title %} - Backgammon Spiel #{{ game_id }}{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{{ url_for('static', filename='css/backgammon.css') }}">{% endblock %}
+{% block content %}
+<a href="{{ url_for('backgammon.lobby') }}" class="btn-back">&larr; Zurueck zur Lobby</a>
+<div class="game-container">
+    <div class="bg-info">
+        <span id="status">Lade...</span>
+        <span>Du spielst: <strong>{{ 'Weiss' if my_player == 1 else 'Schwarz' }}</strong></span>
+        <span>Gegner: <strong>{{ opponent }}</strong></span>
+        <button id="help-btn" class="bg-help-btn" onclick="toggleHelp()" title="Kurzanleitung">?</button>
+    </div>
+    <div class="bg-game-layout">
+        <div class="bg-board-wrapper">
+            <div id="board" class="bg-board"></div>
+        </div>
+        <div class="bg-side-panel">
+            <div id="dice-area" class="bg-dice-area"></div>
+            <div id="move-history" class="bg-move-history">
+                <h3>Zugprotokoll</h3>
+                <div id="move-log" class="move-log"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Kurzanleitung Overlay -->
+<div id="help-overlay" class="bg-help-overlay" onclick="if(event.target===this)toggleHelp()">
+    <div class="bg-help-card">
+        <button class="bg-help-close" onclick="toggleHelp()">&times;</button>
+        <h3>Kurzanleitung</h3>
+        <div class="bg-help-body">
+            <div class="bg-help-section">
+                <h4>Ziel</h4>
+                <p>Bringe alle 15 Steine in dein Heimfeld und wuerfle sie dann vom Brett.</p>
+            </div>
+            <div class="bg-help-section">
+                <h4>Ziehen</h4>
+                <ul>
+                    <li><strong>Klicke</strong> auf einen eigenen Stein, dann auf das Zielfeld.</li>
+                    <li>Rot markierte Felder zeigen gueltige Zuege an.</li>
+                    <li>Du musst moeglichst viele Wuerfel nutzen.</li>
+                </ul>
+            </div>
+            <div class="bg-help-section">
+                <h4>Wuerfel</h4>
+                <ul>
+                    <li>Zwei Wuerfel &mdash; jeder einzeln oder beide auf einen Stein.</li>
+                    <li><strong>Pasch:</strong> 4 statt 2 Zuege.</li>
+                    <li>Verbrauchte Wuerfel werden ausgegraut.</li>
+                </ul>
+            </div>
+            <div class="bg-help-section">
+                <h4>Schlagen &amp; Bar</h4>
+                <ul>
+                    <li>Einzelne Steine (Blots) koennen geschlagen werden.</li>
+                    <li>Geschlagene Steine muessen zuerst von der Bar eingesetzt werden.</li>
+                </ul>
+            </div>
+            <div class="bg-help-section">
+                <h4>Auswuerfeln</h4>
+                <ul>
+                    <li>Erst moeglich, wenn alle Steine im Heimfeld sind.</li>
+                    <li>Klicke auf einen Stein, dann auf das Haus-Feld (rechts).</li>
+                </ul>
+            </div>
+            <div class="bg-help-section">
+                <h4>Zugrichtung</h4>
+                <p>
+                    <strong>Weiss:</strong> 24 &rarr; 1 (rechts oben &rarr; rechts unten)<br>
+                    <strong>Schwarz:</strong> 1 &rarr; 24 (rechts unten &rarr; rechts oben)
+                </p>
+            </div>
+        </div>
+        <p class="bg-help-footer">
+            <a href="{{ url_for('backgammon.rules') }}">Ausf&uuml;hrliche Spielregeln &rarr;</a>
+        </p>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+const BACKGAMMON_BASE = '/backgammon';
+const GAME_ID = {{ game_id }};
+const MY_PLAYER = {{ my_player }};
+const IS_AI = {{ 'true' if is_ai else 'false' }};
+const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]')?.content || '';
+</script>
+<script src="{{ url_for('static', filename='js/backgammon_game.js') }}"></script>
+{% endblock %}

@@ -45,6 +45,7 @@ def create_app(test_config=None):
     from hangman import hangman_bp
     from muehle import muehle_bp
     from twentyone import twentyone_bp
+    from backgammon import backgammon_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(dashboard_bp)
@@ -52,6 +53,7 @@ def create_app(test_config=None):
     app.register_blueprint(hangman_bp, url_prefix='/hangman')
     app.register_blueprint(muehle_bp, url_prefix='/muehle')
     app.register_blueprint(twentyone_bp, url_prefix='/twentyone')
+    app.register_blueprint(backgammon_bp, url_prefix='/backgammon')
 
     # Import muehle socketio events
     with app.app_context():

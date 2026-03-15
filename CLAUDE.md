@@ -2,7 +2,7 @@
 
 ## Projekt
 
-Spielesammlung — Flask-Webanwendung mit vier Spielen unter einem gemeinsamen Login. Sprache im Code: Englisch. UI-Texte: Deutsch.
+Spielesammlung — Flask-Webanwendung mit fuenf Spielen unter einem gemeinsamen Login. Sprache im Code: Englisch. UI-Texte: Deutsch.
 
 ## Build & Run
 
@@ -26,7 +26,7 @@ pytest tests/ -v
 
 - **Flask App Factory** in `app.py` mit `socketio.run()` (noetig fuer Muehle-Multiplayer)
 - **Gemeinsame Extensions** in `extensions.py`: db, login_manager, socketio, csrf
-- **Ein User-Model** in `models.py` (Username + Passwort), dazu spielspezifische Models (DameGame, MuehleGame, MuehleGameMove)
+- **Ein User-Model** in `models.py` (Username + Passwort), dazu spielspezifische Models (DameGame, MuehleGame, MuehleGameMove, BackgammonGame)
 - **SQLite-Datenbank**: `instance/spielesammlung.db`, angelegt via `db.create_all()`
 
 ### Blueprints
@@ -39,6 +39,7 @@ pytest tests/ -v
 | `hangman` | `/hangman` | Hangman (Galgenmaennchen) |
 | `muehle` | `/muehle` | Muehle mit KI und SocketIO-Multiplayer |
 | `twentyone` | `/twentyone` | 17 und 4 (Kartenspiel) |
+| `backgammon` | `/backgammon` | Backgammon mit KI und Lobby |
 
 ### Spiellogik-Module (reines Python, kein Flask)
 
@@ -46,6 +47,7 @@ pytest tests/ -v
 - `hangman/words.py`
 - `muehle/engine/` (board.py, rules.py, ai.py)
 - `twentyone/game.py`
+- `backgammon/game_logic.py`, `backgammon/ai.py`, `backgammon/game_manager.py`
 
 ## Konventionen
 
@@ -62,5 +64,5 @@ pytest tests/ -v
 
 - Kein Datenbank-Migrationstool — Schema-Aenderungen erfordern DB-Neuanlage
 - Muehle-KI ist synchron und blockiert den Request (< 2 Sek. bei Tiefe 4)
-- Hangman und TwentyOne speichern Spielzustand nur im Arbeitsspeicher (verloren bei Server-Neustart)
+- Hangman, TwentyOne und Backgammon speichern Spielzustand nur im Arbeitsspeicher (verloren bei Server-Neustart)
 - Kein Disconnect-Handling im Muehle-Multiplayer

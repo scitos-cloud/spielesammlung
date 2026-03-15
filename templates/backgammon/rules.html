@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+{% block title %} - Backgammon Spielregeln{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{{ url_for('static', filename='css/backgammon.css') }}">{% endblock %}
+{% block content %}
+<a href="{{ url_for('backgammon.lobby') }}" class="btn-back">&larr; Zurueck zur Lobby</a>
+<div class="rules-content">
+    <h2>Backgammon - Spielregeln</h2>
+
+    <div class="rules-section">
+        <h3>1. Spielziel</h3>
+        <p>
+            Ziel des Spiels ist es, alle eigenen 15 Steine vom Spielbrett zu nehmen
+            (<strong>Ausw&uuml;rfeln</strong> / Bearing Off). Wer zuerst alle Steine
+            ausw&uuml;rfelt, gewinnt die Partie.
+        </p>
+    </div>
+
+    <div class="rules-section">
+        <h3>2. Das Spielbrett</h3>
+        <p>
+            Das Backgammon-Brett besteht aus <strong>24 Dreiecken</strong> (auch Zungen
+            oder Points genannt), die abwechselnd hell und dunkel gef&auml;rbt sind.
+            Die Points sind in vier Quadranten zu je 6 Points unterteilt:
+        </p>
+        <ul>
+            <li><strong>Eigenes Heimfeld</strong> (rechts unten): Points 1&ndash;6</li>
+            <li><strong>Eigenes Au&szlig;enfeld</strong> (links unten): Points 7&ndash;12</li>
+            <li><strong>Gegnerisches Au&szlig;enfeld</strong> (links oben): Points 13&ndash;18</li>
+            <li><strong>Gegnerisches Heimfeld</strong> (rechts oben): Points 19&ndash;24</li>
+        </ul>
+        <p>
+            In der Mitte des Bretts befindet sich die <strong>Bar</strong> (Mittelsteg),
+            auf der geschlagene Steine abgelegt werden.
+        </p>
+    </div>
+
+    <div class="rules-section">
+        <h3>3. Startaufstellung</h3>
+        <p>Jeder Spieler beginnt mit 15 Steinen in folgender Aufstellung (f&uuml;r Wei&szlig;):</p>
+        <ul>
+            <li><strong>2 Steine</strong> auf Point 24</li>
+            <li><strong>5 Steine</strong> auf Point 13</li>
+            <li><strong>3 Steine</strong> auf Point 8</li>
+            <li><strong>5 Steine</strong> auf Point 6</li>
+        </ul>
+        <p>Schwarz hat die gespiegelte Aufstellung (2 auf Point 1, 5 auf Point 12, 3 auf Point 17, 5 auf Point 19).</p>
+
+        <div class="rules-diagram">
+            <div class="diagram-board">
+                <div class="diagram-row diagram-top">
+                    <div class="diagram-labels">
+                        <span>13</span><span>14</span><span>15</span><span>16</span><span>17</span><span>18</span>
+                        <span class="diagram-bar-label">Bar</span>
+                        <span>19</span><span>20</span><span>21</span><span>22</span><span>23</span><span>24</span>
+                    </div>
+                    <div class="diagram-checkers">
+                        <span class="dc dc-w">5W</span><span class="dc"></span><span class="dc"></span><span class="dc"></span><span class="dc dc-b">3B</span><span class="dc"></span>
+                        <span class="dc diagram-bar-space"></span>
+                        <span class="dc dc-b">5B</span><span class="dc"></span><span class="dc"></span><span class="dc"></span><span class="dc"></span><span class="dc dc-w">2W</span>
+                    </div>
+                </div>
+                <div class="diagram-middle">
+                    <span>Zugrichtung Wei&szlig;: 24 &rarr; 1 &bull; Zugrichtung Schwarz: 1 &rarr; 24</span>
+                </div>
+                <div class="diagram-row diagram-bottom">
+                    <div class="diagram-checkers">
+                        <span class="dc dc-b">5B</span><span class="dc"></span><span class="dc"></span><span class="dc dc-w">3W</span><span class="dc"></span><span class="dc"></span>
+                        <span class="dc diagram-bar-space"></span>
+                        <span class="dc dc-w">5W</span><span class="dc"></span><span class="dc"></span><span class="dc"></span><span class="dc"></span><span class="dc dc-b">2B</span>
+                    </div>
+                    <div class="diagram-labels">
+                        <span>12</span><span>11</span><span>10</span><span>9</span><span>8</span><span>7</span>
+                        <span class="diagram-bar-label">Bar</span>
+                        <span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="rules-section">
+        <h3>4. W&uuml;rfeln und Ziehen</h3>
+        <p>
+            Jeder Spieler w&uuml;rfelt mit <strong>zwei W&uuml;rfeln</strong>. Die beiden
+            Augenzahlen k&ouml;nnen auf verschiedene Steine verteilt werden, oder ein
+            einzelner Stein kann beide Augenzahlen nacheinander nutzen.
+        </p>
+        <ul>
+            <li>
+                <strong>Pasch (Doppelw&uuml;rfe):</strong> Bei gleicher Augenzahl auf beiden
+                W&uuml;rfeln darf der Spieler die doppelte Anzahl an Z&uuml;gen machen (4 statt 2).
+                Beispiel: Bei 3-3 darf viermal um je 3 Felder gezogen werden.
+            </li>
+            <li>
+                <strong>Zugpflicht:</strong> Es m&uuml;ssen m&ouml;glichst viele W&uuml;rfel
+                genutzt werden. Kann nur ein W&uuml;rfel genutzt werden, muss der h&ouml;here
+                W&uuml;rfel bevorzugt werden (falls m&ouml;glich).
+            </li>
+        </ul>
+    </div>
+
+    <div class="rules-section">
+        <h3>5. Schlagen</h3>
+        <p>
+            Ein einzelner Stein auf einem Point wird <strong>Blot</strong> genannt. Wird
+            ein Blot von einem gegnerischen Stein erreicht, wird er
+            <strong>geschlagen</strong> und auf die Bar in der Mitte gesetzt.
+        </p>
+        <ul>
+            <li>
+                Ein Spieler mit Steinen auf der Bar muss diese <strong>zuerst wieder
+                einsetzen</strong>, bevor er andere Steine bewegen darf.
+            </li>
+            <li>
+                Einsetzen erfolgt in das <strong>gegnerische Heimfeld</strong> (Points 19&ndash;24
+                f&uuml;r Wei&szlig;, Points 1&ndash;6 f&uuml;r Schwarz), sofern der
+                entsprechende Point nicht blockiert ist.
+            </li>
+            <li>
+                <strong>Blockierte Points:</strong> Ein Point mit 2 oder mehr gegnerischen
+                Steinen kann nicht betreten werden.
+            </li>
+        </ul>
+    </div>
+
+    <div class="rules-section">
+        <h3>6. Ausw&uuml;rfeln (Bearing Off)</h3>
+        <p>
+            Sobald <strong>alle 15 eigenen Steine</strong> im eigenen Heimfeld
+            (Points 1&ndash;6) angekommen sind, darf der Spieler mit dem Ausw&uuml;rfeln beginnen.
+        </p>
+        <ul>
+            <li>
+                Ein Stein darf mit einem <strong>exakten Wurf</strong> vom Brett genommen werden
+                (z.B. Wurf 3 nimmt einen Stein von Point 3).
+            </li>
+            <li>
+                Ist kein Stein auf dem gew&uuml;rfelten Point, darf der
+                <strong>h&ouml;chste besetzte Point</strong> ausw&uuml;rfeln, sofern der
+                Wurf h&ouml;her ist als dieser Point.
+            </li>
+            <li>
+                Wird w&auml;hrend des Ausw&uuml;rfelns ein Stein geschlagen, muss dieser
+                zuerst wieder ins Heimfeld gebracht werden, bevor weiter ausgew&uuml;rfelt
+                werden darf.
+            </li>
+        </ul>
+    </div>
+
+    <div class="rules-section">
+        <h3>7. Gewinner</h3>
+        <p>
+            Der Spieler, der zuerst alle seine <strong>15 Steine</strong> vom Brett
+            ausgew&uuml;rfelt hat, gewinnt das Spiel.
+        </p>
+    </div>
+</div>
+{% endblock %}

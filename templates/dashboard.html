@@ -59,6 +59,38 @@
             <h3>17 und 4</h3>
             <p>Ziehe Karten und versuche moeglichst nah an 21 zu kommen, ohne dich zu ueberkaufen!</p>
         </a>
+        <a href="{{ url_for('backgammon.lobby') }}" class="game-card">
+            <div class="game-card-icon">
+                <svg viewBox="0 0 80 80" width="48" height="48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <!-- Board outline -->
+                    <rect x="4" y="4" width="72" height="72" rx="4" fill="none" stroke="currentColor" stroke-width="2"/>
+                    <line x1="40" y1="4" x2="40" y2="76" stroke="currentColor" stroke-width="1.5"/>
+                    <!-- Top triangles -->
+                    <polygon points="8,4 14,30 20,4" fill="#8B4513" opacity="0.6"/>
+                    <polygon points="20,4 26,30 32,4" fill="#D4A574" opacity="0.6"/>
+                    <polygon points="48,4 54,30 60,4" fill="#8B4513" opacity="0.6"/>
+                    <polygon points="60,4 66,30 72,4" fill="#D4A574" opacity="0.6"/>
+                    <!-- Bottom triangles -->
+                    <polygon points="8,76 14,50 20,76" fill="#D4A574" opacity="0.6"/>
+                    <polygon points="20,76 26,50 32,76" fill="#8B4513" opacity="0.6"/>
+                    <polygon points="48,76 54,50 60,76" fill="#D4A574" opacity="0.6"/>
+                    <polygon points="60,76 66,50 72,76" fill="#8B4513" opacity="0.6"/>
+                    <!-- Checkers -->
+                    <circle cx="14" cy="68" r="5" fill="#f5e6ca" stroke="#333" stroke-width="1"/>
+                    <circle cx="14" cy="58" r="5" fill="#f5e6ca" stroke="#333" stroke-width="1"/>
+                    <circle cx="66" cy="12" r="5" fill="#3a1f04" stroke="#a08060" stroke-width="1"/>
+                    <circle cx="66" cy="22" r="5" fill="#3a1f04" stroke="#a08060" stroke-width="1"/>
+                    <!-- Dice -->
+                    <rect x="30" y="34" width="10" height="10" rx="2" fill="#fff" stroke="#333" stroke-width="0.5"/>
+                    <circle cx="35" cy="39" r="1.5" fill="#333"/>
+                    <rect x="42" y="34" width="10" height="10" rx="2" fill="#fff" stroke="#333" stroke-width="0.5"/>
+                    <circle cx="45" cy="37" r="1.5" fill="#333"/>
+                    <circle cx="49" cy="41" r="1.5" fill="#333"/>
+                </svg>
+            </div>
+            <h3>Backgammon</h3>
+            <p>Wuerfle, setze deine Steine und wuerfle sie als Erster vom Brett! Gegen KI oder Mitspieler.</p>
+        </a>
     </div>
 </div>
 {% endblock %}

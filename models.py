@@ -77,6 +77,23 @@ class MuehleGame(db.Model):
         }
 
 
+class BackgammonGame(db.Model):
+    __tablename__ = 'backgammon_game'
+    id = db.Column(db.Integer, primary_key=True)
+    white_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    black_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+    is_ai_game = db.Column(db.Boolean, default=False)
+    status = db.Column(db.String(20), default='waiting')
+    result = db.Column(db.String(10), nullable=True)
+    winner_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+    started_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    finished_at = db.Column(db.DateTime, nullable=True)
+
+    white = db.relationship('User', foreign_keys=[white_id], backref='bg_games_as_white')
+    black = db.relationship('User', foreign_keys=[black_id], backref='bg_games_as_black')
+    bg_winner = db.relationship('User', foreign_keys=[winner_id])
+
+
 class MuehleGameMove(db.Model):
     __tablename__ = 'muehle_game_move'
     id = db.Column(db.Integer, primary_key=True)

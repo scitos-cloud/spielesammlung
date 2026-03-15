@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block title %} - Backgammon Lobby{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{{ url_for('static', filename='css/backgammon.css') }}">{% endblock %}
+{% block content %}
+<a href="{{ url_for('dashboard.index') }}" class="btn-back">&larr; Zurueck zur Spieleauswahl</a>
+<div class="lobby bg-lobby">
+    <h2>Backgammon - Lobby</h2>
+    <p class="lobby-welcome">
+        Willkommen, <strong>{{ current_user.username }}</strong>!
+        Starte ein Spiel gegen die KI oder erstelle ein offenes Spiel und warte auf einen Mitspieler.
+    </p>
+    <div class="lobby-actions">
+        <button onclick="startAI()">Gegen KI spielen</button>
+        <button onclick="createOpen()">Gegen Mensch spielen</button>
+    </div>
+
+    <div class="lobby-columns">
+        <div class="lobby-col">
+            <h3>Meine aktiven Spiele</h3>
+            <ul id="active-games"></ul>
+        </div>
+        <div class="lobby-col">
+            <h3>Offene Spiele</h3>
+            <ul id="open-games"></ul>
+        </div>
+    </div>
+
+    <p style="margin-top: 20px;">
+        <a href="{{ url_for('backgammon.rules') }}" class="btn btn-secondary">Spielregeln</a>
+    </p>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+const BASE = '/backgammon';
+const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]')?.content || '';
+
+function startAI() {
+    fetch(BASE + '/lobby/start-ai', {method: 'POST', headers: {'X-CSRFToken': CSRF_TOKEN}})
+        .then(r => r.json())
+        .then(data => { window.location.href = BASE + '/game/' + data.game_id; });
+}
+
+function createOpen() {
+    fetch(BASE + '/lobby/create-open', {method: 'POST', headers: {'X-CSRFToken': CSRF_TOKEN}})
+        .then(r => r.json())
+        .then(data => {
+            if (data.game_id) {
+                window.location.href = BASE + '/game/' + data.game_id;
+            } else {
+                window.location.reload();
+            }
+        });
+}
+
+function joinGame(gameId) {
+    fetch(BASE + '/lobby/join/' + gameId, {method: 'POST', headers: {'X-CSRFToken': CSRF_TOKEN}})
+        .then(r => r.json())
+        .then(data => {
+            if (data.game_id) window.location.href = BASE + '/game/' + data.game_id;
+        });
+}
+
+function pollGames() {
+    fetch(BASE + '/lobby/games').then(r => r.json()).then(data => {
+        const activeList = document.getElementById('active-games');
+        activeList.innerHTML = '';
+        if (data.active && data.active.length > 0) {
+            data.active.forEach(g => {
+                const li = document.createElement('li');
+                li.innerHTML = '<a href="' + BASE + '/game/' + g.id + '">Spiel #' + g.id
+                    + ' vs ' + g.opponent + '</a>';
+                activeList.appendChild(li);
+            });
+        } else {
+            activeList.innerHTML = '<li>Keine aktiven Spiele</li>';
+        }
+
+        const openList = document.getElementById('open-games');
+        openList.innerHTML = '';
+        if (data.open && data.open.length > 0) {
+            data.open.forEach(g => {
+                const li = document.createElement('li');
+                li.innerHTML = g.creator + ' wartet '
+                    + '<button onclick="joinGame(' + g.id + ')">Beitreten</button>';
+                openList.appendChild(li);
+            });
+        } else {
+            openList.innerHTML = '<li>Keine offenen Spiele</li>';
+        }
+    });
+}
+
+pollGames();
+setInterval(pollGames, 5000);
+</script>
+{% endblock %}
