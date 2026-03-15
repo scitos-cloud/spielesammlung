@@ -22,13 +22,19 @@ def index():
 @hangman_bp.route('/api/new-game', methods=['POST'])
 @login_required
 def new_game():
-    word = random.choice(WORDS).upper()
+    data = request.get_json(silent=True) or {}
+    lang = data.get('lang', 'de')
+    if lang not in WORDS:
+        lang = 'de'
+    word_list = WORDS[lang]
+    word = random.choice(word_list).upper()
     game_id = str(uuid.uuid4())
     games[game_id] = {
         'word': word,
         'guessed': [],
         'wrong': 0,
         'status': 'playing',
+        'lang': lang,
     }
     session['hangman_game_id'] = game_id
     return jsonify({
@@ -38,6 +44,7 @@ def new_game():
         'wrong': 0,
         'max_wrong': MAX_WRONG,
         'status': 'playing',
+        'lang': lang,
     })
 
 
@@ -83,6 +90,7 @@ def guess():
         'status': game['status'],
         'word': game['word'] if game['status'] == 'lost' else None,
         'correct': letter in game['word'],
+        'lang': game['lang'],
     })
 
 
@@ -103,4 +111,5 @@ def state(game_id):
         'max_wrong': MAX_WRONG,
         'status': game['status'],
         'word': game['word'] if game['status'] == 'lost' else None,
+        'lang': game['lang'],
     })
