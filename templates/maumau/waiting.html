@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %} - Mau-Mau Warteraum{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/maumau.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="maumau-waiting-container">
+    <div class="maumau-waiting-card">
+        <h1>Warteraum</h1>
+        <div class="maumau-room-code-display">
+            <span class="label">Raumcode:</span>
+            <span class="code" id="room-code">{{ room.room_code }}</span>
+        </div>
+        <p class="maumau-waiting-info">
+            Warte auf <span id="needed-count">{{ room.max_human_players }}</span> menschliche(n) Spieler
+            + {{ room.num_ai_players }} KI-Gegner
+        </p>
+        <div class="maumau-players-list" id="players-list">
+            <h3>Verbundene Spieler:</h3>
+            <ul id="player-ul"></ul>
+        </div>
+        <div class="maumau-waiting-spinner">
+            <div class="maumau-spinner"></div>
+            <p>Warte auf Spieler...</p>
+        </div>
+        <div id="start-section" style="display:none;">
+            {% if room.host_id == current_user.id %}
+            <button class="btn-maumau btn-maumau-primary" id="start-btn">Spiel starten</button>
+            {% else %}
+            <p>Warte auf den Host...</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var socket = io('/maumau', { path: '{{ request.script_root }}/socket.io/' });
+    var roomCode = '{{ room.room_code }}';
+    var username = '{{ current_user.username }}';
+    var userId = '{{ current_user.id }}';
+    var isHost = {{ 'true' if room.host_id == current_user.id else 'false' }};
+    var maxHumans = {{ room.max_human_players }};
+    var playerUl = document.getElementById('player-ul');
+    var startSection = document.getElementById('start-section');
+
+    socket.emit('join_room', {room_code: roomCode, username: username, user_id: userId});
+
+    socket.on('player_joined', function(data) {
+        playerUl.innerHTML = '';
+        data.players.forEach(function(p) {
+            var li = document.createElement('li');
+            li.textContent = p.name + (p.is_host ? ' (Host)' : '');
+            playerUl.appendChild(li);
+        });
+        if (data.players.length >= maxHumans) {
+            startSection.style.display = 'block';
+        }
+    });
+
+    socket.on('game_started', function(data) {
+        window.location.href = '/maumau/game/' + roomCode;
+    });
+
+    var startBtn = document.getElementById('start-btn');
+    if (startBtn) {
+        startBtn.addEventListener('click', function() {
+            socket.emit('start_game', {room_code: roomCode});
+        });
+    }
+
+    socket.on('error', function(data) {
+        alert(data.message);
+    });
+});
+</script>
+{% endblock %}

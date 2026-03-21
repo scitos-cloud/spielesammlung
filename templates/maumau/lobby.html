@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %} - Mau-Mau{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/maumau.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="maumau-lobby-container">
+    <div class="maumau-lobby-header">
+        <a href="{{ url_for('dashboard.index') }}" class="back-link">&larr; Spielauswahl</a>
+        <h1>Mau-Mau Lobby</h1>
+        <div class="maumau-lobby-links">
+            <a href="{{ url_for('maumau.rules') }}">Regeln</a>
+            <a href="{{ url_for('maumau.logbook') }}">Spielprotokoll</a>
+        </div>
+    </div>
+
+    <div class="maumau-lobby-grid">
+        <div class="maumau-lobby-card">
+            <h2>Spiel erstellen</h2>
+            <form method="POST" action="{{ url_for('maumau.create_game') }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <div class="maumau-form-group">
+                    <label for="num_ai">KI-Gegner</label>
+                    <select id="num_ai" name="num_ai">
+                        <option value="0">0</option>
+                        <option value="1" selected>1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                </div>
+                <div class="maumau-form-group">
+                    <label for="max_humans">Menschliche Spieler (inkl. dir)</label>
+                    <select id="max_humans" name="max_humans">
+                        <option value="1" selected>1 (Solo gegen KI)</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                </div>
+                <p class="maumau-form-hint" id="total-hint">Spieler gesamt: 2</p>
+                <button type="submit" class="btn-maumau btn-maumau-primary" id="create-btn">Spiel erstellen</button>
+            </form>
+        </div>
+
+        <div class="maumau-lobby-card">
+            <h2>Spiel beitreten</h2>
+            <form method="POST" action="{{ url_for('maumau.join_game') }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <div class="maumau-form-group">
+                    <label for="room_code">Raumcode</label>
+                    <input type="text" id="room_code" name="room_code"
+                           placeholder="6-stelliger Code" maxlength="6"
+                           style="text-transform: uppercase;">
+                </div>
+                <button type="submit" class="btn-maumau btn-maumau-secondary">Beitreten</button>
+            </form>
+
+            {% if rooms %}
+            <h3>Offene Raeume</h3>
+            <div class="maumau-room-list">
+                {% for room in rooms %}
+                <div class="maumau-room-item">
+                    <div class="maumau-room-info">
+                        <span class="maumau-room-code">{{ room.room_code }}</span>
+                        <span class="maumau-room-host">Host: {{ room.host.username }}</span>
+                        <span class="maumau-room-details">{{ room.num_ai_players }} KI, {{ room.max_human_players }} Mensch(en)</span>
+                    </div>
+                    <form method="POST" action="{{ url_for('maumau.join_game') }}" style="display:inline;">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="room_code" value="{{ room.room_code }}">
+                        <button type="submit" class="btn-maumau btn-maumau-small">Beitreten</button>
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var aiSelect = document.getElementById('num_ai');
+    var humanSelect = document.getElementById('max_humans');
+    var hint = document.getElementById('total-hint');
+    var createBtn = document.getElementById('create-btn');
+
+    function updateTotal() {
+        var total = parseInt(aiSelect.value) + parseInt(humanSelect.value);
+        hint.textContent = 'Spieler gesamt: ' + total;
+        if (total < 2 || total > 4) {
+            hint.style.color = '#e74c3c';
+            createBtn.disabled = true;
+        } else {
+            hint.style.color = '#aaa';
+            createBtn.disabled = false;
+        }
+    }
+
+    aiSelect.addEventListener('change', updateTotal);
+    humanSelect.addEventListener('change', updateTotal);
+    updateTotal();
+});
+</script>
+{% endblock %}

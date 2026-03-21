@@ -94,6 +94,52 @@ class BackgammonGame(db.Model):
     bg_winner = db.relationship('User', foreign_keys=[winner_id])
 
 
+class MauMauRoom(db.Model):
+    __tablename__ = 'maumau_room'
+    id = db.Column(db.Integer, primary_key=True)
+    room_code = db.Column(db.String(6), unique=True, nullable=False, index=True)
+    status = db.Column(db.String(20), default='waiting')
+    host_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    num_ai_players = db.Column(db.Integer, default=0)
+    max_human_players = db.Column(db.Integer, default=1)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+
+    host = db.relationship('User', foreign_keys=[host_id])
+
+
+class MauMauGameLog(db.Model):
+    __tablename__ = 'maumau_game_log'
+    id = db.Column(db.Integer, primary_key=True)
+    room_id = db.Column(db.String(6))
+    started_at = db.Column(db.DateTime)
+    ended_at = db.Column(db.DateTime)
+    winner_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+    game_data = db.Column(db.Text, nullable=True)
+
+    winner = db.relationship('User', foreign_keys=[winner_id])
+    players = db.relationship('MauMauGameLogPlayer', backref='game_log',
+                              order_by='MauMauGameLogPlayer.position')
+
+    def set_game_data(self, data):
+        self.game_data = json.dumps(data)
+
+    def get_game_data(self):
+        if self.game_data:
+            return json.loads(self.game_data)
+        return {}
+
+
+class MauMauGameLogPlayer(db.Model):
+    __tablename__ = 'maumau_game_log_player'
+    id = db.Column(db.Integer, primary_key=True)
+    gamelog_id = db.Column(db.Integer, db.ForeignKey('maumau_game_log.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+    player_name = db.Column(db.String(80), nullable=False)
+    player_type = db.Column(db.String(10), nullable=False)
+    position = db.Column(db.Integer, nullable=False)
+    result = db.Column(db.String(10), nullable=False)
+
+
 class MuehleGameMove(db.Model):
     __tablename__ = 'muehle_game_move'
     id = db.Column(db.Integer, primary_key=True)

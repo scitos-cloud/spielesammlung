@@ -52,7 +52,7 @@
     const GAME_ID = {{ game_id }};
     const MY_COLOR = '{{ color }}';
     const IS_AI = {{ 'true' if is_ai else 'false' }};
-    const GAME_BASE = '/dame';
+    const GAME_BASE = '{{ request.script_root }}/dame';
 </script>
 <script src="{{ url_for('static', filename='js/dame_game.js') }}"></script>
 {% endblock %}

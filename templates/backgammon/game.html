@@ -80,7 +80,7 @@
 {% endblock %}
 {% block scripts %}
 <script>
-const BACKGAMMON_BASE = '/backgammon';
+const BACKGAMMON_BASE = '{{ request.script_root }}/backgammon';
 const GAME_ID = {{ game_id }};
 const MY_PLAYER = {{ my_player }};
 const IS_AI = {{ 'true' if is_ai else 'false' }};

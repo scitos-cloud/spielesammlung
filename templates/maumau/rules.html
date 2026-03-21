@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %} - Mau-Mau Regeln{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/maumau.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="maumau-rules-container">
+    <div class="maumau-lobby-header">
+        <a href="{{ url_for('maumau.lobby') }}" class="back-link">&larr; Lobby</a>
+        <h1>Mau-Mau Regeln</h1>
+    </div>
+
+    <div class="maumau-rules-content">
+        <section>
+            <h2>Ziel</h2>
+            <p>Werde als Erster alle deine Karten los. Wer seine letzte Karte ablegt, ruft "Mau-Mau!" und gewinnt.</p>
+        </section>
+
+        <section>
+            <h2>Spielablauf</h2>
+            <ul>
+                <li>Jeder Spieler erhaelt 7 Karten.</li>
+                <li>Eine Karte wird offen auf den Ablagestapel gelegt.</li>
+                <li>Reihum legt jeder Spieler eine passende Karte ab oder zieht eine Karte vom Stapel.</li>
+                <li>Eine Karte passt, wenn sie die gleiche Farbe oder den gleichen Wert wie die oberste Karte hat.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Sonderkarten</h2>
+            <div class="maumau-rules-cards">
+                <div class="maumau-rule-card">
+                    <div class="maumau-rule-card-value">7</div>
+                    <div class="maumau-rule-card-desc">
+                        <strong>+2 Karten</strong>
+                        <p>Der naechste Spieler muss 2 Karten ziehen — es sei denn, er kann ebenfalls eine 7 legen (dann werden die Karten addiert).</p>
+                    </div>
+                </div>
+                <div class="maumau-rule-card">
+                    <div class="maumau-rule-card-value">8</div>
+                    <div class="maumau-rule-card-desc">
+                        <strong>Aussetzen</strong>
+                        <p>Der naechste Spieler wird uebersprungen.</p>
+                    </div>
+                </div>
+                <div class="maumau-rule-card">
+                    <div class="maumau-rule-card-value">J</div>
+                    <div class="maumau-rule-card-desc">
+                        <strong>Farbwunsch</strong>
+                        <p>Der Bube darf auf jede Karte gelegt werden. Der Spieler waehlt eine Farbe, die als naechstes bedient werden muss.</p>
+                    </div>
+                </div>
+                <div class="maumau-rule-card">
+                    <div class="maumau-rule-card-value">A</div>
+                    <div class="maumau-rule-card-desc">
+                        <strong>Richtungswechsel</strong>
+                        <p>Die Spielrichtung wird umgekehrt. Bei 2 Spielern wirkt das Ass wie Aussetzen.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Mau &amp; Mau-Mau</h2>
+            <ul>
+                <li><strong>Mau:</strong> Wenn du nur noch eine Karte hast, wird automatisch "Mau!" angezeigt.</li>
+                <li><strong>Mau-Mau:</strong> Wer seine letzte Karte ablegt, gewinnt das Spiel!</li>
+            </ul>
+        </section>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %} - Mau-Mau Spielprotokoll{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/maumau.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="maumau-logbook-container">
+    <div class="maumau-lobby-header">
+        <a href="{{ url_for('maumau.lobby') }}" class="back-link">&larr; Lobby</a>
+        <h1>Spielprotokoll</h1>
+    </div>
+
+    {% if logs %}
+    <table class="maumau-logbook-table">
+        <thead>
+            <tr>
+                <th>Datum</th>
+                <th>Raum</th>
+                <th>Gegner</th>
+                <th>Ergebnis</th>
+                <th>Dauer</th>
+                <th>Runden</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in logs %}
+            <tr class="maumau-log-row maumau-log-{{ log.result }}">
+                <td>{{ log.date.strftime('%d.%m.%Y %H:%M') if log.date else 'N/A' }}</td>
+                <td><span class="maumau-room-code-small">{{ log.room_code }}</span></td>
+                <td>
+                    {% for opp in log.opponents %}
+                        <span class="maumau-opponent-tag maumau-opponent-{{ opp.player_type }}">
+                            {{ opp.player_name }}
+                            <small>({{ 'KI' if opp.player_type == 'ai' else 'Mensch' }})</small>
+                        </span>
+                    {% endfor %}
+                </td>
+                <td>
+                    <span class="maumau-result-badge maumau-result-{{ log.result }}">
+                        {{ 'Gewonnen' if log.result == 'win' else 'Verloren' }}
+                    </span>
+                </td>
+                <td>{{ log.duration }}</td>
+                <td>{{ log.rounds }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="maumau-empty-logbook">
+        <p>Noch keine Spiele gespielt. Starte ein Spiel in der <a href="{{ url_for('maumau.lobby') }}">Lobby</a>!</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,998 @@
+/* ============================================================
+   Mau-Mau - Game-specific styles
+   ============================================================ */
+
+:root {
+    --mm-felt-green: #1a5c2a;
+    --mm-felt-dark: #0e3d1a;
+    --mm-card-white: #fafafa;
+    --mm-card-shadow: rgba(0,0,0,0.3);
+    --mm-accent: #e94560;
+    --mm-accent-hover: #d63851;
+    --mm-text-light: #ecf0f1;
+    --mm-text-muted: #95a5a6;
+    --mm-bg-card: #16213e;
+    --mm-bg-input: #0f3460;
+    --mm-border-color: #2c3e50;
+    --mm-success: #27ae60;
+    --mm-danger: #e74c3c;
+    --mm-warning: #f39c12;
+    --mm-blue: #3498db;
+}
+
+/* --- Lobby --- */
+.maumau-lobby-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.maumau-lobby-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.maumau-lobby-header h1 {
+    color: var(--mm-accent);
+    flex: 1;
+}
+
+.maumau-lobby-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.maumau-lobby-links a {
+    color: var(--mm-text-muted);
+    transition: color 0.2s;
+}
+
+.maumau-lobby-links a:hover {
+    color: var(--mm-accent);
+}
+
+.maumau-lobby-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+@media (max-width: 768px) {
+    .maumau-lobby-grid { grid-template-columns: 1fr; }
+}
+
+.maumau-lobby-card {
+    background: var(--mm-bg-card);
+    border: 1px solid var(--mm-border-color);
+    border-radius: 12px;
+    padding: 2rem;
+}
+
+.maumau-lobby-card h2 {
+    margin-bottom: 1.5rem;
+    color: var(--mm-accent);
+}
+
+.maumau-lobby-card h3 {
+    margin-top: 1.5rem;
+    margin-bottom: 0.8rem;
+    color: var(--mm-text-muted);
+}
+
+/* --- Forms --- */
+.maumau-form-group {
+    margin-bottom: 1.2rem;
+}
+
+.maumau-form-group label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-weight: 500;
+    color: var(--mm-text-muted);
+}
+
+.maumau-form-group input,
+.maumau-form-group select {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    background: var(--mm-bg-input);
+    border: 1px solid var(--mm-border-color);
+    border-radius: 6px;
+    color: var(--mm-text-light);
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.maumau-form-group input:focus,
+.maumau-form-group select:focus {
+    outline: none;
+    border-color: var(--mm-accent);
+}
+
+.maumau-form-hint {
+    font-size: 0.85rem;
+    color: var(--mm-text-muted);
+    margin-bottom: 1rem;
+}
+
+/* --- Buttons --- */
+.btn-maumau {
+    display: inline-block;
+    padding: 0.7rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    text-decoration: none;
+    width: 100%;
+}
+
+.btn-maumau:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-maumau-primary {
+    background: var(--mm-accent);
+    color: white;
+}
+
+.btn-maumau-primary:hover:not(:disabled) {
+    background: var(--mm-accent-hover);
+    transform: translateY(-1px);
+}
+
+.btn-maumau-secondary {
+    background: var(--mm-blue);
+    color: white;
+}
+
+.btn-maumau-secondary:hover:not(:disabled) {
+    background: #2980b9;
+    transform: translateY(-1px);
+}
+
+.btn-maumau-small {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+    width: auto;
+}
+
+/* --- Room List --- */
+.maumau-room-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.maumau-room-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem;
+    background: rgba(255,255,255,0.05);
+    border-radius: 6px;
+}
+
+.maumau-room-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.maumau-room-code {
+    font-weight: 700;
+    color: var(--mm-accent);
+    font-family: monospace;
+    font-size: 1.1rem;
+}
+
+.maumau-room-host { font-size: 0.85rem; color: var(--mm-text-muted); }
+.maumau-room-details { font-size: 0.8rem; color: var(--mm-text-muted); }
+
+/* --- Waiting Room --- */
+.maumau-waiting-container {
+    display: flex;
+    justify-content: center;
+    padding-top: 3rem;
+}
+
+.maumau-waiting-card {
+    background: var(--mm-bg-card);
+    border: 1px solid var(--mm-border-color);
+    border-radius: 12px;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+}
+
+.maumau-waiting-card h1 {
+    color: var(--mm-accent);
+    margin-bottom: 1.5rem;
+}
+
+.maumau-room-code-display {
+    margin-bottom: 1.5rem;
+}
+
+.maumau-room-code-display .label {
+    color: var(--mm-text-muted);
+}
+
+.maumau-room-code-display .code {
+    font-family: monospace;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--mm-accent);
+    letter-spacing: 4px;
+    margin-left: 0.5rem;
+}
+
+.maumau-waiting-info {
+    color: var(--mm-text-muted);
+    margin-bottom: 1.5rem;
+}
+
+.maumau-players-list {
+    text-align: left;
+    margin-bottom: 1.5rem;
+}
+
+.maumau-players-list h3 {
+    color: var(--mm-text-muted);
+    margin-bottom: 0.5rem;
+}
+
+.maumau-players-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.maumau-players-list li {
+    padding: 0.5rem 0.8rem;
+    background: rgba(255,255,255,0.05);
+    border-radius: 4px;
+    margin-bottom: 0.3rem;
+}
+
+.maumau-waiting-spinner {
+    margin: 1.5rem 0;
+}
+
+.maumau-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--mm-border-color);
+    border-top-color: var(--mm-accent);
+    border-radius: 50%;
+    animation: maumauSpin 1s linear infinite;
+    margin: 0 auto 0.8rem;
+}
+
+@keyframes maumauSpin {
+    to { transform: rotate(360deg); }
+}
+
+/* ============================================================
+   GAME TABLE
+   ============================================================ */
+.maumau-game-table {
+    position: relative;
+    width: 100%;
+    max-width: 1300px;
+    margin: 0 auto;
+    height: calc(100vh - 70px);
+    background: radial-gradient(ellipse at center, var(--mm-felt-green) 0%, var(--mm-felt-dark) 100%);
+    border-radius: 20px;
+    border: 4px solid #2d1810;
+    box-shadow: inset 0 0 60px rgba(0,0,0,0.4), 0 10px 40px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+}
+
+.maumau-game-main {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    padding: 1rem;
+}
+
+/* --- Move Log Panel --- */
+.maumau-log-panel {
+    width: 220px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    background: rgba(0,0,0,0.25);
+    border-left: 1px solid rgba(255,255,255,0.08);
+    border-radius: 0 16px 16px 0;
+}
+
+.maumau-log-header {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--mm-accent);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    background: rgba(0,0,0,0.2);
+    flex-shrink: 0;
+}
+
+.maumau-log-entries {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.maumau-log-entries::-webkit-scrollbar { width: 4px; }
+.maumau-log-entries::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+.maumau-log-entries::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+
+.maumau-log-entry {
+    font-size: 0.78rem;
+    padding: 0.3rem 0.4rem;
+    border-radius: 3px;
+    line-height: 1.35;
+    color: var(--mm-text-light);
+    word-break: break-word;
+}
+
+.maumau-log-entry .log-time {
+    color: var(--mm-text-muted);
+    font-size: 0.68rem;
+    margin-right: 0.3rem;
+}
+
+.maumau-log-entry-play    { background: rgba(255,255,255,0.05); }
+.maumau-log-entry-draw    { background: rgba(52,152,219,0.12); color: #89cfe8; }
+.maumau-log-entry-special { background: rgba(243,156,18,0.12); color: #f5b942; }
+.maumau-log-entry-info    { color: var(--mm-text-muted); font-style: italic; }
+.maumau-log-entry-winner  { background: rgba(39,174,96,0.2); color: #2ecc71; font-weight: 700; }
+
+@media (max-width: 900px) {
+    .maumau-game-table { flex-direction: column; }
+    .maumau-log-panel {
+        width: auto;
+        height: 130px;
+        border-left: none;
+        border-top: 1px solid rgba(255,255,255,0.08);
+        border-radius: 0 0 16px 16px;
+    }
+    .maumau-log-entries { flex-direction: column-reverse; }
+}
+
+/* --- Opponents Area --- */
+.maumau-opponents-area {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    padding: 0.5rem 1rem;
+    min-height: 130px;
+    flex-wrap: wrap;
+}
+
+.maumau-opponent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    transition: all 0.3s;
+}
+
+.maumau-opponent.active {
+    transform: scale(1.05);
+}
+
+.maumau-opponent.active .maumau-opponent-name {
+    color: var(--mm-accent);
+    text-shadow: 0 0 10px rgba(233,69,96,0.5);
+}
+
+.maumau-opponent-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--mm-text-light);
+    transition: all 0.3s;
+}
+
+.maumau-opponent-cards {
+    display: flex;
+    gap: -10px;
+    justify-content: center;
+}
+
+.maumau-opponent-card-back {
+    width: 36px;
+    height: 52px;
+    background: linear-gradient(135deg, #c0392b 0%, #8e2222 100%);
+    border: 2px solid #fff;
+    border-radius: 4px;
+    margin-left: -12px;
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+    transition: transform 0.3s;
+}
+
+.maumau-opponent-card-back:first-child {
+    margin-left: 0;
+}
+
+.maumau-opponent-card-count {
+    font-size: 0.8rem;
+    color: var(--mm-text-muted);
+}
+
+.maumau-mau-indicator {
+    color: var(--mm-warning);
+    font-weight: 700;
+    font-size: 1rem;
+    animation: maumauMauPulse 0.8s ease-in-out infinite;
+}
+
+@keyframes maumauMauPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.8; }
+}
+
+/* --- Center Area --- */
+.maumau-center-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    flex: 1;
+    min-height: 200px;
+}
+
+.maumau-pile {
+    position: relative;
+    cursor: pointer;
+}
+
+.maumau-draw-pile .maumau-card-back {
+    width: 90px;
+    height: 130px;
+    background: linear-gradient(135deg, #c0392b 0%, #8e2222 50%, #c0392b 100%);
+    border: 3px solid #fff;
+    border-radius: 8px;
+    box-shadow: 3px 3px 10px rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+}
+
+.maumau-draw-pile .maumau-card-back::before {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 4px;
+}
+
+.maumau-draw-pile .maumau-card-back::after {
+    content: 'ZIEHEN';
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 2px;
+}
+
+.maumau-draw-pile:hover .maumau-card-back {
+    transform: translateY(-3px);
+    box-shadow: 3px 6px 15px rgba(0,0,0,0.5);
+}
+
+.maumau-deck-count {
+    position: absolute;
+    bottom: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.8rem;
+    color: var(--mm-text-muted);
+}
+
+.maumau-discard-pile .maumau-card {
+    width: 90px;
+    height: 130px;
+}
+
+/* --- Card Rendering --- */
+.maumau-card {
+    background: var(--mm-card-white);
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 2px 2px 8px var(--mm-card-shadow);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    user-select: none;
+}
+
+.maumau-card .card-corner {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1;
+    font-weight: 700;
+}
+
+.maumau-card .card-corner-tl {
+    top: 4px;
+    left: 5px;
+    font-size: 0.85rem;
+}
+
+.maumau-card .card-corner-br {
+    bottom: 4px;
+    right: 5px;
+    font-size: 0.85rem;
+    transform: rotate(180deg);
+}
+
+.maumau-card .card-center-suit {
+    font-size: 2.2rem;
+}
+
+.maumau-card.card-red { color: #d32f2f; }
+.maumau-card.card-black { color: #222; }
+
+/* --- Player Hand Area --- */
+.maumau-player-area {
+    padding: 0.5rem 1rem 1rem;
+    min-height: 150px;
+}
+
+.maumau-player-hand {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.maumau-player-hand .maumau-hand-card {
+    width: 80px;
+    height: 115px;
+    background: var(--mm-card-white);
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 2px 2px 8px var(--mm-card-shadow);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    user-select: none;
+}
+
+.maumau-player-hand .maumau-hand-card:hover {
+    transform: translateY(-15px);
+    box-shadow: 2px 8px 15px var(--mm-card-shadow);
+    z-index: 10;
+}
+
+.maumau-player-hand .maumau-hand-card.playable {
+    border-color: var(--mm-accent);
+    box-shadow: 0 0 8px rgba(233,69,96,0.4);
+}
+
+.maumau-player-hand .maumau-hand-card.not-playable {
+    opacity: 0.6;
+}
+
+.maumau-player-hand .maumau-hand-card .card-corner {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1;
+    font-weight: 700;
+}
+
+.maumau-player-hand .maumau-hand-card .card-corner-tl {
+    top: 3px;
+    left: 4px;
+    font-size: 0.75rem;
+}
+
+.maumau-player-hand .maumau-hand-card .card-corner-br {
+    bottom: 3px;
+    right: 4px;
+    font-size: 0.75rem;
+    transform: rotate(180deg);
+}
+
+.maumau-player-hand .maumau-hand-card .card-center-suit {
+    font-size: 1.8rem;
+}
+
+.maumau-hand-card.card-red { color: #d32f2f; }
+.maumau-hand-card.card-black { color: #222; }
+
+/* --- Game Info --- */
+.maumau-game-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 150px;
+}
+
+.maumau-turn-indicator {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--mm-accent);
+    text-align: center;
+}
+
+.maumau-direction-indicator {
+    font-size: 0.85rem;
+    color: var(--mm-text-muted);
+    text-align: center;
+}
+
+.maumau-wished-suit-display {
+    padding: 0.5rem 0.8rem;
+    background: rgba(0,0,0,0.3);
+    border-radius: 6px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border: 2px solid var(--mm-accent);
+    animation: maumauWishPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes maumauWishPulse {
+    0%, 100% { border-color: var(--mm-accent); }
+    50% { border-color: transparent; }
+}
+
+.maumau-pending-draw-display {
+    padding: 0.5rem 0.8rem;
+    background: rgba(231,76,60,0.3);
+    border-radius: 6px;
+    text-align: center;
+    font-weight: 700;
+    color: var(--mm-danger);
+    border: 2px solid var(--mm-danger);
+}
+
+/* --- Suit Modal --- */
+.maumau-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.maumau-modal {
+    background: var(--mm-bg-card);
+    border: 2px solid var(--mm-border-color);
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    min-width: 320px;
+}
+
+.maumau-modal h2 {
+    margin-bottom: 1.5rem;
+    color: var(--mm-accent);
+}
+
+.maumau-suit-choices {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.maumau-suit-btn {
+    padding: 1rem;
+    font-size: 1.3rem;
+    font-weight: 700;
+    border: 2px solid var(--mm-border-color);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: rgba(255,255,255,0.05);
+    color: var(--mm-text-light);
+}
+
+.maumau-suit-btn:hover {
+    transform: scale(1.05);
+    border-color: var(--mm-accent);
+}
+
+.maumau-suit-btn.suit-hearts { color: #d32f2f; }
+.maumau-suit-btn.suit-diamonds { color: #d32f2f; }
+.maumau-suit-btn.suit-clubs { color: #ddd; }
+.maumau-suit-btn.suit-spades { color: #ddd; }
+
+/* --- Game Over Modal --- */
+.maumau-gameover-modal {
+    min-width: 400px;
+}
+
+.maumau-gameover-modal h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.maumau-gameover-modal p {
+    color: var(--mm-text-muted);
+    margin-bottom: 1.5rem;
+}
+
+.maumau-celebration {
+    position: relative;
+    height: 60px;
+    margin-bottom: 1rem;
+}
+
+.maumau-confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    animation: maumauConfettiFall 2s ease-in forwards;
+}
+
+@keyframes maumauConfettiFall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100px) rotate(720deg); opacity: 0; }
+}
+
+/* --- Floating Animation Card --- */
+.maumau-floating-card {
+    position: absolute;
+    width: 80px;
+    height: 115px;
+    background: var(--mm-card-white);
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 4px 4px 15px rgba(0,0,0,0.5);
+    z-index: 500;
+    transition: all 0.8s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.maumau-floating-card.card-back-float {
+    background: linear-gradient(135deg, #c0392b 0%, #8e2222 100%);
+    border-color: #fff;
+}
+
+/* --- Status Bar --- */
+.maumau-status-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--mm-text-muted);
+    background: rgba(0,0,0,0.3);
+    border-radius: 0 0 16px 16px;
+}
+
+/* --- Card Animations --- */
+.maumau-deal-animate {
+    animation: maumauDealCard 0.4s ease-out forwards;
+}
+
+@keyframes maumauDealCard {
+    0% { transform: translate(-50%, -200%) scale(0.5) rotate(-20deg); opacity: 0; }
+    100% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 1; }
+}
+
+.maumau-draw-animate {
+    animation: maumauDrawCard 0.5s ease-out forwards;
+}
+
+@keyframes maumauDrawCard {
+    0% { transform: translateX(-100px) translateY(-50px) scale(0.8); opacity: 0; }
+    100% { transform: translateX(0) translateY(0) scale(1); opacity: 1; }
+}
+
+.maumau-play-animate {
+    animation: maumauPlayCard 0.4s ease-in forwards;
+}
+
+@keyframes maumauPlayCard {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(0.5) translateY(-100px); opacity: 0; }
+}
+
+/* Active player glow */
+.maumau-player-area.active-turn {
+    position: relative;
+}
+
+.maumau-player-area.active-turn::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border: 2px solid var(--mm-accent);
+    border-radius: 12px;
+    animation: maumauGlowPulse 1.5s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes maumauGlowPulse {
+    0%, 100% { box-shadow: 0 0 10px rgba(233,69,96,0.3); }
+    50% { box-shadow: 0 0 25px rgba(233,69,96,0.6); }
+}
+
+/* --- Logbook --- */
+.maumau-logbook-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.maumau-logbook-container h1 {
+    color: var(--mm-accent);
+    margin-bottom: 1.5rem;
+}
+
+.maumau-logbook-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.maumau-logbook-table th {
+    text-align: left;
+    padding: 0.8rem;
+    border-bottom: 2px solid var(--mm-border-color);
+    color: var(--mm-text-muted);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.maumau-logbook-table td {
+    padding: 0.8rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    vertical-align: middle;
+}
+
+.maumau-log-row.maumau-log-win { background: rgba(39,174,96,0.05); }
+.maumau-log-row.maumau-log-loss { background: rgba(231,76,60,0.05); }
+
+.maumau-room-code-small {
+    font-family: monospace;
+    font-weight: 600;
+    color: var(--mm-accent);
+}
+
+.maumau-opponent-tag {
+    display: inline-block;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    margin: 0.1rem;
+}
+
+.maumau-opponent-human { background: rgba(52,152,219,0.2); border: 1px solid var(--mm-blue); }
+.maumau-opponent-ai { background: rgba(243,156,18,0.2); border: 1px solid var(--mm-warning); }
+
+.maumau-result-badge {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+.maumau-result-win { background: var(--mm-success); color: white; }
+.maumau-result-loss { background: var(--mm-danger); color: white; }
+
+.maumau-empty-logbook {
+    text-align: center;
+    padding: 3rem;
+    color: var(--mm-text-muted);
+}
+
+.maumau-empty-logbook a {
+    color: var(--mm-accent);
+}
+
+/* --- Rules --- */
+.maumau-rules-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.maumau-rules-container h1 {
+    color: var(--mm-accent);
+}
+
+.maumau-rules-content {
+    margin-top: 1.5rem;
+}
+
+.maumau-rules-content section {
+    margin-bottom: 2rem;
+}
+
+.maumau-rules-content h2 {
+    color: var(--mm-accent);
+    margin-bottom: 0.8rem;
+    font-size: 1.3rem;
+}
+
+.maumau-rules-content p,
+.maumau-rules-content li {
+    color: var(--mm-text-light);
+    line-height: 1.6;
+}
+
+.maumau-rules-content ul {
+    padding-left: 1.5rem;
+}
+
+.maumau-rules-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.maumau-rule-card {
+    display: flex;
+    gap: 1.2rem;
+    align-items: flex-start;
+    background: var(--mm-bg-card);
+    border: 1px solid var(--mm-border-color);
+    border-radius: 10px;
+    padding: 1.2rem;
+}
+
+.maumau-rule-card-value {
+    min-width: 50px;
+    height: 70px;
+    background: var(--mm-card-white);
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #222;
+    flex-shrink: 0;
+}
+
+.maumau-rule-card-desc strong {
+    color: var(--mm-accent);
+    display: block;
+    margin-bottom: 0.3rem;
+}
+
+.maumau-rule-card-desc p {
+    font-size: 0.9rem;
+    margin: 0;
+}

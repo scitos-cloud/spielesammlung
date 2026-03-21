@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %} - Mau-Mau{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/maumau.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="maumau-game-table" id="game-table">
+
+    <div class="maumau-game-main">
+
+        <div class="maumau-opponents-area" id="opponents-area"></div>
+
+        <div class="maumau-center-area">
+            <div class="maumau-pile maumau-draw-pile" id="draw-pile" title="Karte ziehen">
+                <div class="maumau-card maumau-card-back">
+                    <span class="maumau-deck-count" id="deck-count">0</span>
+                </div>
+            </div>
+
+            <div class="maumau-pile maumau-discard-pile" id="discard-pile">
+                <div class="maumau-card" id="top-card"></div>
+            </div>
+
+            <div class="maumau-game-info" id="game-info">
+                <div class="maumau-turn-indicator" id="turn-indicator"></div>
+                <div class="maumau-direction-indicator" id="direction-indicator"></div>
+                <div class="maumau-wished-suit-display" id="wished-suit-display" style="display:none;"></div>
+                <div class="maumau-pending-draw-display" id="pending-draw-display" style="display:none;"></div>
+            </div>
+        </div>
+
+        <div class="maumau-player-area" id="player-area">
+            <div class="maumau-player-hand" id="player-hand"></div>
+        </div>
+
+        <div class="maumau-status-bar" id="status-bar"></div>
+
+    </div>
+
+    <div class="maumau-log-panel">
+        <div class="maumau-log-header">Spielprotokoll</div>
+        <div class="maumau-log-entries" id="game-log-entries"></div>
+    </div>
+
+    <div class="maumau-modal-overlay" id="suit-modal" style="display:none;">
+        <div class="maumau-modal">
+            <h2>Farbe waehlen</h2>
+            <div class="maumau-suit-choices">
+                <button class="maumau-suit-btn suit-hearts" data-suit="H">&#9829; Herz</button>
+                <button class="maumau-suit-btn suit-diamonds" data-suit="D">&#9830; Karo</button>
+                <button class="maumau-suit-btn suit-clubs" data-suit="C">&#9827; Kreuz</button>
+                <button class="maumau-suit-btn suit-spades" data-suit="S">&#9824; Pik</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="maumau-modal-overlay" id="gameover-modal" style="display:none;">
+        <div class="maumau-modal maumau-gameover-modal">
+            <h2 id="gameover-title"></h2>
+            <p id="gameover-message"></p>
+            <div class="maumau-celebration" id="celebration"></div>
+            <a href="{{ url_for('maumau.lobby') }}" class="btn-maumau btn-maumau-primary">Zurueck zur Lobby</a>
+        </div>
+    </div>
+
+    <div class="maumau-floating-card" id="floating-card" style="display:none;"></div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.min.js"></script>
+<script>
+    var ROOM_CODE = '{{ room.room_code }}';
+    var USER_ID = '{{ current_user.id }}';
+    var USERNAME = '{{ current_user.username }}';
+    var SCRIPT_ROOT = '{{ request.script_root }}';
+</script>
+<script src="{{ url_for('static', filename='js/maumau_game.js') }}"></script>
+{% endblock %}

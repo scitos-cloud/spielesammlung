@@ -78,6 +78,6 @@
 </div>
 {% endblock %}
 {% block scripts %}
-<script>const HANGMAN_BASE = '/hangman';</script>
+<script>const HANGMAN_BASE = '{{ request.script_root }}/hangman';</script>
 <script src="{{ url_for('static', filename='js/hangman_game.js') }}?v=3"></script>
 {% endblock %}

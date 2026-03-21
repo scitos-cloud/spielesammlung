@@ -2,12 +2,14 @@ import configparser
 import os
 from datetime import datetime, timezone
 from flask import Flask
+from werkzeug.middleware.proxy_fix import ProxyFix
 from extensions import db, login_manager, socketio, csrf
 from models import User
 
 
 def create_app(test_config=None):
     app = Flask(__name__)
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-prod')
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///spielesammlung.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -46,6 +48,7 @@ def create_app(test_config=None):
     from muehle import muehle_bp
     from twentyone import twentyone_bp
     from backgammon import backgammon_bp
+    from maumau import maumau_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(dashboard_bp)
@@ -54,10 +57,12 @@ def create_app(test_config=None):
     app.register_blueprint(muehle_bp, url_prefix='/muehle')
     app.register_blueprint(twentyone_bp, url_prefix='/twentyone')
     app.register_blueprint(backgammon_bp, url_prefix='/backgammon')
+    app.register_blueprint(maumau_bp, url_prefix='/maumau')
 
-    # Import muehle socketio events
+    # Import socketio events
     with app.app_context():
         from muehle import events  # noqa: F401
+        from maumau import events  # noqa: E401, F401, F811
         db.create_all()
 
     return app

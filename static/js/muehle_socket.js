@@ -1,5 +1,5 @@
 // SocketIO client for multiplayer Muehle games (namespace /muehle)
-const socket = io('/muehle');
+const socket = io('/muehle', { path: (typeof SCRIPT_ROOT !== 'undefined' ? SCRIPT_ROOT : '') + '/socket.io/' });
 
 socket.on('connect', () => {
     socket.emit('join_game', {game_id: GAME_ID});

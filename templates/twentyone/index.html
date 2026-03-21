@@ -33,6 +33,6 @@
 </div>
 {% endblock %}
 {% block scripts %}
-<script>const TWENTYONE_BASE = '/twentyone';</script>
+<script>const TWENTYONE_BASE = '{{ request.script_root }}/twentyone';</script>
 <script src="{{ url_for('static', filename='js/twentyone_game.js') }}"></script>
 {% endblock %}

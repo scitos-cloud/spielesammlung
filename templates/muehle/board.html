@@ -92,7 +92,8 @@
     const MY_PLAYER = {{ my_player }};
     const IS_VS_COMPUTER = {{ 'true' if game.is_vs_computer else 'false' }};
     const CSRF_TOKEN = "{{ csrf_token() }}";
-    const MUEHLE_BASE = '/muehle';
+    const SCRIPT_ROOT = '{{ request.script_root }}';
+    const MUEHLE_BASE = '{{ request.script_root }}/muehle';
 </script>
 {% if not game.is_vs_computer %}
 <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
