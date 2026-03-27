@@ -27,6 +27,7 @@
                 <div class="maumau-direction-indicator" id="direction-indicator"></div>
                 <div class="maumau-wished-suit-display" id="wished-suit-display" style="display:none;"></div>
                 <div class="maumau-pending-draw-display" id="pending-draw-display" style="display:none;"></div>
+                <button class="mm-help-btn" onclick="toggleMauMauHelp()" title="Sonderkarten">?</button>
             </div>
         </div>
 
@@ -66,6 +67,35 @@
 
     <div class="maumau-floating-card" id="floating-card" style="display:none;"></div>
 
+    <!-- Sonderkarten Hilfe -->
+    <div id="mm-help-overlay" class="mm-help-overlay" onclick="if(event.target===this)toggleMauMauHelp()">
+        <div class="mm-help-card">
+            <button class="mm-help-close" onclick="toggleMauMauHelp()">&times;</button>
+            <h3>Sonderkarten</h3>
+            <div class="mm-help-body">
+                <div class="mm-help-section">
+                    <h4>7 &mdash; Zwei ziehen</h4>
+                    <p>Der naechste Spieler muss 2 Karten ziehen &mdash; oder selbst eine 7 legen, dann addiert sich die Strafe.</p>
+                </div>
+                <div class="mm-help-section">
+                    <h4>8 &mdash; Aussetzen</h4>
+                    <p>Der naechste Spieler wird uebersprungen.</p>
+                </div>
+                <div class="mm-help-section">
+                    <h4>Bube &mdash; Wuenschen</h4>
+                    <p>Darf auf jede Karte gelegt werden. Du waehlst eine Farbe, die als naechstes bedient werden muss.</p>
+                </div>
+                <div class="mm-help-section">
+                    <h4>Ass &mdash; Richtungswechsel</h4>
+                    <p>Kehrt die Spielrichtung um. Bei zwei Spielern wirkt es wie Aussetzen.</p>
+                </div>
+            </div>
+            <p class="mm-help-footer">
+                <a href="{{ url_for('maumau.rules') }}">Ausf&uuml;hrliche Spielregeln &rarr;</a>
+            </p>
+        </div>
+    </div>
+
 </div>
 {% endblock %}
 
@@ -76,6 +106,14 @@
     var USER_ID = '{{ current_user.id }}';
     var USERNAME = '{{ current_user.username }}';
     var SCRIPT_ROOT = '{{ request.script_root }}';
+    function toggleMauMauHelp() {
+        document.getElementById('mm-help-overlay').classList.toggle('active');
+    }
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.getElementById('mm-help-overlay').classList.remove('active');
+        }
+    });
 </script>
 <script src="{{ url_for('static', filename='js/maumau_game.js') }}"></script>
 {% endblock %}
