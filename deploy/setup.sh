@@ -13,6 +13,7 @@ apt-get update
 apt-get install -y python3 python3-venv nginx certbot python3-certbot-nginx
 
 # App-Verzeichnis
+git config --global --add safe.directory "$APP_DIR"
 if [ ! -d "$APP_DIR" ]; then
     git clone https://github.com/scitos-cloud/spielesammlung.git "$APP_DIR"
 else
