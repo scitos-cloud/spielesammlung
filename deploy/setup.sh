@@ -14,7 +14,7 @@ apt-get install -y python3 python3-venv nginx certbot python3-certbot-nginx
 
 # App-Verzeichnis
 if [ ! -d "$APP_DIR" ]; then
-    git clone git@github.com:scitos-cloud/spielesammlung.git "$APP_DIR"
+    git clone https://github.com/scitos-cloud/spielesammlung.git "$APP_DIR"
 else
     cd "$APP_DIR" && git pull
 fi
