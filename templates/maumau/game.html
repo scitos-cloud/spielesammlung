@@ -27,7 +27,7 @@
                 <div class="maumau-direction-indicator" id="direction-indicator"></div>
                 <div class="maumau-wished-suit-display" id="wished-suit-display" style="display:none;"></div>
                 <div class="maumau-pending-draw-display" id="pending-draw-display" style="display:none;"></div>
-                <button class="mm-help-btn" onclick="toggleMauMauHelp()" title="Sonderkarten">?</button>
+                <button class="mm-help-btn" id="mm-help-btn" title="Sonderkarten">?</button>
             </div>
         </div>
 
@@ -70,9 +70,9 @@
 </div>
 
 <!-- Sonderkarten Hilfe (ausserhalb game-table wegen overflow:hidden) -->
-<div id="mm-help-overlay" class="mm-help-overlay" onclick="if(event.target===this)toggleMauMauHelp()">
+<div id="mm-help-overlay" class="mm-help-overlay">
     <div class="mm-help-card">
-        <button class="mm-help-close" onclick="toggleMauMauHelp()">&times;</button>
+        <button class="mm-help-close" id="mm-help-close">&times;</button>
         <h3>Sonderkarten</h3>
         <div class="mm-help-body">
             <div class="mm-help-section">
@@ -106,14 +106,23 @@
     var USER_ID = '{{ current_user.id }}';
     var USERNAME = '{{ current_user.username }}';
     var SCRIPT_ROOT = '{{ request.script_root }}';
-    function toggleMauMauHelp() {
-        document.getElementById('mm-help-overlay').classList.toggle('active');
-    }
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            document.getElementById('mm-help-overlay').classList.remove('active');
-        }
-    });
+
+    (function() {
+        var overlay = document.getElementById('mm-help-overlay');
+        document.getElementById('mm-help-btn').addEventListener('click', function(e) {
+            e.stopPropagation();
+            overlay.classList.toggle('active');
+        });
+        document.getElementById('mm-help-close').addEventListener('click', function() {
+            overlay.classList.remove('active');
+        });
+        overlay.addEventListener('click', function(e) {
+            if (e.target === overlay) overlay.classList.remove('active');
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') overlay.classList.remove('active');
+        });
+    })();
 </script>
 <script src="{{ url_for('static', filename='js/maumau_game.js') }}"></script>
 {% endblock %}

@@ -1012,6 +1012,8 @@
     flex-shrink: 0;
     transition: background 0.2s;
     margin-top: 6px;
+    position: relative;
+    z-index: 20;
 }
 
 .mm-help-btn:hover {
