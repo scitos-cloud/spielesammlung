@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     socket.on('game_started', function(data) {
-        window.location.href = '/maumau/game/' + roomCode;
+        window.location.href = '{{ request.script_root }}/maumau/game/' + roomCode;
     });
 
     var startBtn = document.getElementById('start-btn');
