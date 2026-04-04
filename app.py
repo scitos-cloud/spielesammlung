@@ -49,6 +49,7 @@ def create_app(test_config=None):
     from twentyone import twentyone_bp
     from backgammon import backgammon_bp
     from maumau import maumau_bp
+    from pong import pong_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(dashboard_bp)
@@ -58,6 +59,7 @@ def create_app(test_config=None):
     app.register_blueprint(twentyone_bp, url_prefix='/twentyone')
     app.register_blueprint(backgammon_bp, url_prefix='/backgammon')
     app.register_blueprint(maumau_bp, url_prefix='/maumau')
+    app.register_blueprint(pong_bp, url_prefix='/pong')
 
     # Import socketio events
     with app.app_context():

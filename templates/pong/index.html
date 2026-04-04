@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %} - Pong{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pong.css') }}">
+{% endblock %}
+
+{% block content %}
+<a href="{{ url_for('dashboard.index') }}" class="btn-back">&larr; Zurueck zur Spieleauswahl</a>
+
+<div class="pong-wrapper">
+    <div class="pong-header">
+        <div class="pong-score pong-score-player">
+            <span class="pong-score-label">Spieler</span>
+            <span class="pong-score-value" id="score-player">0</span>
+        </div>
+        <div class="pong-title">PONG</div>
+        <div class="pong-score pong-score-ai">
+            <span class="pong-score-label">Computer</span>
+            <span class="pong-score-value" id="score-ai">0</span>
+        </div>
+    </div>
+
+    <div class="pong-canvas-container">
+        <canvas id="pong-canvas" width="800" height="500"></canvas>
+        <div class="pong-overlay" id="pong-overlay">
+            <div class="pong-overlay-content">
+                <h2 id="overlay-title">Pong</h2>
+                <p id="overlay-message">Bewege dein Paddle mit der Maus oder per Touch.</p>
+                <div class="pong-difficulty">
+                    <label>Schwierigkeit:</label>
+                    <div class="pong-difficulty-btns">
+                        <button class="pong-diff-btn" data-diff="easy">Leicht</button>
+                        <button class="pong-diff-btn active" data-diff="medium">Mittel</button>
+                        <button class="pong-diff-btn" data-diff="hard">Schwer</button>
+                    </div>
+                </div>
+                <button class="pong-start-btn" id="start-btn">Spiel starten</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="pong-controls-hint">
+        Maus / Touch = Paddle bewegen &middot; Ziel: <strong>10 Punkte</strong>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/pong_game.js') }}"></script>
+{% endblock %}

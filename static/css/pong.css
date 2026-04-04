@@ -1,0 +1,198 @@
+/* ============================================================
+   Pong - Game-specific styles
+   ============================================================ */
+
+.pong-wrapper {
+    max-width: 840px;
+    margin: 0 auto;
+    padding: 1rem 1rem 2rem;
+}
+
+/* --- Header / Scoreboard --- */
+.pong-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+.pong-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 6px;
+    color: #e94560;
+    text-transform: uppercase;
+}
+
+.pong-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 80px;
+}
+
+.pong-score-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #8892a4;
+    margin-bottom: 0.2rem;
+}
+
+.pong-score-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #ecf0f1;
+    font-variant-numeric: tabular-nums;
+}
+
+/* --- Canvas --- */
+.pong-canvas-container {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    aspect-ratio: 8 / 5;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid #2a2a4a;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+#pong-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: #0a0a1a;
+}
+
+/* --- Overlay --- */
+.pong-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 10, 26, 0.92);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.pong-overlay.hidden {
+    display: none;
+}
+
+.pong-overlay-content {
+    text-align: center;
+    padding: 2rem;
+}
+
+.pong-overlay-content h2 {
+    color: #e94560;
+    font-size: 2rem;
+    margin-bottom: 0.8rem;
+    letter-spacing: 3px;
+}
+
+.pong-overlay-content p {
+    color: #8892a4;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+}
+
+/* --- Difficulty --- */
+.pong-difficulty {
+    margin-bottom: 1.5rem;
+}
+
+.pong-difficulty label {
+    display: block;
+    color: #8892a4;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+}
+
+.pong-difficulty-btns {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.pong-diff-btn {
+    padding: 0.4rem 1rem;
+    border: 1px solid #2a2a4a;
+    border-radius: 6px;
+    background: #16213e;
+    color: #8892a4;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.pong-diff-btn:hover {
+    border-color: #e94560;
+    color: #ecf0f1;
+}
+
+.pong-diff-btn.active {
+    background: #e94560;
+    border-color: #e94560;
+    color: #fff;
+}
+
+/* --- Start Button --- */
+.pong-start-btn {
+    padding: 0.7rem 2.5rem;
+    background: #e94560;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    letter-spacing: 1px;
+}
+
+.pong-start-btn:hover {
+    background: #d63851;
+    transform: translateY(-1px);
+}
+
+.pong-start-btn:active {
+    transform: translateY(0);
+}
+
+/* --- Controls hint --- */
+.pong-controls-hint {
+    text-align: center;
+    color: #8892a4;
+    font-size: 0.8rem;
+    margin-top: 0.8rem;
+}
+
+/* --- Responsive --- */
+@media (max-width: 600px) {
+    .pong-header {
+        gap: 1rem;
+    }
+
+    .pong-title {
+        font-size: 1.2rem;
+        letter-spacing: 3px;
+    }
+
+    .pong-score-value {
+        font-size: 1.5rem;
+    }
+
+    .pong-overlay-content h2 {
+        font-size: 1.5rem;
+    }
+
+    .pong-controls-hint {
+        font-size: 0.7rem;
+    }
+}

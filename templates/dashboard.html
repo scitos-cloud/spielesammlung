@@ -117,6 +117,22 @@
             <h3>Mau-Mau</h3>
             <p>Das beliebte Kartenspiel! Werde als Erster deine Karten los. Gegen KI oder Mitspieler.</p>
         </a>
+        <a href="{{ url_for('pong.index') }}" class="game-card">
+            <div class="game-card-icon">
+                <svg viewBox="0 0 80 80" width="48" height="48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <!-- Left paddle -->
+                    <rect x="8" y="22" width="8" height="28" rx="3" fill="#ecf0f1"/>
+                    <!-- Right paddle -->
+                    <rect x="64" y="32" width="8" height="28" rx="3" fill="#ecf0f1"/>
+                    <!-- Ball -->
+                    <circle cx="40" cy="38" r="6" fill="#e94560"/>
+                    <!-- Dashed center line -->
+                    <line x1="40" y1="5" x2="40" y2="75" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.3"/>
+                </svg>
+            </div>
+            <h3>Pong</h3>
+            <p>Der Arcade-Klassiker! Spiele gegen den Computer und erreiche als Erster 10 Punkte.</p>
+        </a>
     </div>
 </div>
 {% endblock %}

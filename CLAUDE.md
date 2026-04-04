@@ -41,6 +41,7 @@ pytest tests/ -v
 | `twentyone` | `/twentyone` | 17 und 4 (Kartenspiel) |
 | `backgammon` | `/backgammon` | Backgammon mit KI und Lobby |
 | `maumau` | `/maumau` | Mau-Mau mit KI und SocketIO-Multiplayer |
+| `pong` | `/pong` | Pong gegen KI (Canvas-basiert, rein clientseitig) |
 
 ### Spiellogik-Module (reines Python, kein Flask)
 
@@ -67,4 +68,5 @@ pytest tests/ -v
 - Kein Datenbank-Migrationstool — Schema-Aenderungen erfordern DB-Neuanlage
 - Muehle-KI ist synchron und blockiert den Request (< 2 Sek. bei Tiefe 4)
 - Hangman, TwentyOne, Backgammon und Mau-Mau speichern Spielzustand nur im Arbeitsspeicher (verloren bei Server-Neustart)
+- Pong laeuft vollstaendig im Browser (kein Server-State)
 - Kein Disconnect-Handling im Muehle-Multiplayer
